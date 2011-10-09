@@ -280,22 +280,21 @@ public class CMMInterpreterVisitor implements
 	}
 
 
-	@Override
+	//@Override
 	public CMMData visit(CMMASTStatementNode node, CMMEnvironment data) {
 		return visitChildren(node, data);
 	}
 
-	@Override
 	public CMMData visit(CMMASTTypeNode node, CMMEnvironment data) {
 		return null;
 	}
 
-	@Override
+	//@Override
 	public CMMData visit(CMMASTIfStatementNode node, CMMEnvironment data) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	//@Override
 	/*
 	 * Declaration -> Type Identifier (listsep Identifier)* eol
 	 */
