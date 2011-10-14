@@ -34,7 +34,7 @@ public class CMM {
 			System.err.println("A parse exception occured:" + e);
 			System.exit(-1);
 		}
-		System.out.println("Program parsed successfully - attempting to run");
+		System.out.println("(current eclipse version)Program parsed successfully - attempting to run");
 		System.out.println("Program output:");
 		CMMInterpreterVisitor v = new CMMInterpreterVisitor();
 		CMMData res = n.accept(v, null);

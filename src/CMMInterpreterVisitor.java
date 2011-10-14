@@ -323,7 +323,40 @@ public class CMMInterpreterVisitor implements
 	}
 
 	public CMMData visit(CMMASTToken node, CMMEnvironment data) {
+		
 		if (node.getName().equals("number")) {
+			if (node.getValue().indexOf('r') > 0) //if this is an arbitrary base number
+			{
+				String str = node.getValue();
+				//trim the string to avoid dealing with white spaces : str.trim() 
+				
+				String base = "";
+				String number = "";
+				int count = 0;
+				for(int i = 0; i < str.length(); i++)
+				{
+					if (str.charAt(i) == 'r') {
+						count = i + 1; // keeping track of index
+						while(count < str.length()){
+							number += str.charAt(count);
+							count++;
+							}
+						break;
+					}
+					base += str.charAt(i);
+					
+				}
+				
+				
+				
+				int b = Integer.parseInt(base);
+				
+				if (b>29) throw new RuntimeException("cannot read numbers with bases greater than 29");
+						
+				return new CMMNumber(toDecimal(Integer.parseInt(base),number).value);
+				
+			}
+			
 			return new CMMNumber(Double.parseDouble(node.getValue()));
 		} else if (node.getName().equals("string")) {
 			return new CMMString(node.getValue());
@@ -337,6 +370,44 @@ public class CMMInterpreterVisitor implements
 		}
 		return null;
 	}
+	
+	/**
+	 * Helper function for converting from any base to decimal value
+	 * @param base
+	 * @param number
+	 * @return CMMNumber
+	 */
+	private CMMNumber toDecimal(int base, String number)
+	{
+		//TODO: check for wrong base conversion e.g 2rB
+		
+		
+		
+		String baseChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		String baseChars2 = "0123456789abcdefghijklmnopqrstuvwxyz";
+		int iterator = number.length();
+		int returnValue = 0; 
+		int multiplier = 1;
+		
+		while( iterator > 0){
+			
+			String chr = number.substring(iterator-1, iterator);
+
+			//int no_caps = baseChars2.indexOf(number.substring(iterator-1, iterator));
+			
+			int ch = baseChars.contains(chr) ? baseChars.indexOf(chr) : baseChars2.indexOf(chr); 
+			returnValue = returnValue + (ch *multiplier);
+			multiplier *= base;
+			--iterator;
+			
+		}
+		
+		
+		return new CMMNumber(returnValue);
+	}
+	
+	
+	
 	
 	protected CMMData visitChildren(CMMASTNode node, CMMEnvironment data) {
 		CMMData last = null;

@@ -1,10 +1,10 @@
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class CMMASTNode {
 
   private CMMASTNode parent;
 
-  private Vector<CMMASTNode> children = new Vector<CMMASTNode>();
+  private ArrayList<CMMASTNode> children = new ArrayList<CMMASTNode>();
 
   private String name, value;
 
@@ -18,7 +18,7 @@ public class CMMASTNode {
 
   public void removeChild(CMMASTNode node) { children.remove(node); node.parent = null; }
 
-  public Vector<CMMASTNode> getChildren() { return children; }
+  public ArrayList<CMMASTNode> getChildren() { return children; }
 
   public CMMASTNode getChild(int i) { return children.get(i); }
 
