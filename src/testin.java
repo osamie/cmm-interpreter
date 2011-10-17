@@ -4,10 +4,23 @@ public class testin {
 	private static final String baseDigits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 	public static void main(String[] args) {
 		int i = 9;
-		String s = "this";
 		
-		String k = i + s;
-		System.out.println(convertToDecimal(2,"101"));
+	    int k; 
+			k = 2;
+			 do{
+			   System.out.print("Okay I w!77 n33d 2 5t@rt gener@t!ng my own DPs. Ph0t05 are starting 2 get b0r!n9");
+			   System.out.print(" -ZUWA. ");
+			   
+			   k=k+2;
+			   
+			   //if (k>=29997) System.out.print("\n");
+			   }
+			while(30000>k);
+
+		//String s = "this";
+		
+		//String k = i + s;
+		//System.out.println(convertToDecimal(2,"101"));
 	}
 	
 //private static final String baseDigits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";

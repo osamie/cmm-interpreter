@@ -276,7 +276,30 @@ public class CMMInterpreterVisitor implements
 
 	// DoLoop -> do Block while Condition eol
 	public CMMData visit(CMMASTDoLoopNode node, CMMEnvironment data) {
-		throw new UnsupportedOperationException();
+		//visit Block first
+		CMMData res = node.getChild(1).accept(this, data);
+		
+		//check that child[2] is a while.....tokenization already handles that
+		
+		CMMData cont = node.getChild(3).accept(this, data);
+		
+		if (!(cont instanceof CMMBoolean)) {
+			throw new RuntimeException("Invalid (non-boolean) condition in while loop");
+		}
+		
+		CMMBoolean cb = (CMMBoolean)cont;
+		
+		while(cb.value()) //while condition is still true
+		{
+			res = node.getChild(1).accept(this, data);
+			cb = (CMMBoolean)node.getChild(3).accept(this, data);
+		}
+		
+		return res;
+		
+		//CMMData res = null;
+		 
+		//throw new UnsupportedOperationException();
 	}
 
 
@@ -288,10 +311,54 @@ public class CMMInterpreterVisitor implements
 	public CMMData visit(CMMASTTypeNode node, CMMEnvironment data) {
 		return null;
 	}
-
-	//@Override
+    //               0     1        2     3       4       5         3/6  4/7
+	//IfStatement -> if Condition Block (elsif Condition Block)* (else Block)?
 	public CMMData visit(CMMASTIfStatementNode node, CMMEnvironment data) {
-		throw new UnsupportedOperationException();
+		
+		//check if child[1] is not CMMBoolean
+		CMMData cont = node.getChild(1).accept(this, data);
+		
+		if (!(cont instanceof CMMBoolean)) {
+			throw new RuntimeException("Invalid (non-boolean) condition in if statement");
+		}
+		
+		
+		//If child[1] is boolean true visit child[2],Block...return CMMData
+		CMMBoolean cb = (CMMBoolean) cont;
+		if (cb.value) return node.getChild(2).accept(this, data);
+		
+		
+		
+		if (node.numChildren()==3) return null; 
+			//throw new RuntimeException("FOUND NULL");
+		
+		int i = 3;
+		
+		
+		
+		if (node.getChild(i).getName().equals("elsif")){
+			//CMMASTNode efRes = node.getChild(i);
+			
+			while(node.getChild(i).getName().equals("elsif")){
+				CMMData efcont = node.getChild(i+1).accept(this, data);
+				if(!( efcont instanceof CMMBoolean)) 
+					{
+						throw new RuntimeException("Invalid or non-boolean condition in else if statement");
+					}
+				CMMBoolean cc = (CMMBoolean) efcont;
+				
+				if(cc.value) return node.getChild(i+2).accept(this, data);
+				if(node.numChildren()==(i+3)) return null;
+				i +=3;
+			
+			}
+			
+			
+		}
+		
+		 
+		return node.getChild(i+1).accept(this, data);
+		
 	}
 
 	//@Override
@@ -352,9 +419,11 @@ public class CMMInterpreterVisitor implements
 				int b = Integer.parseInt(base);
 				
 				if (b>29) throw new RuntimeException("cannot read numbers with bases greater than 29");
-						
-				return new CMMNumber(toDecimal(Integer.parseInt(base),number).value);
 				
+				
+				return new CMMNumber(toDecimal(b,number).value);
+				//OR I COULD HAVE SIMPLY DONE 
+				//return new CMMNumber(Integer.parseInt(number,b));
 			}
 			
 			return new CMMNumber(Double.parseDouble(node.getValue()));
