@@ -3,36 +3,42 @@ number count(number n) {
   number i;
   i = 0;
   while (i < n) {
-    i = 2rajkjkj ;
-    println("this is i:");
+    i = ZUZU ;
+    println("");
     println(i);
   }
   i;
 }
 
-number doloop(){
-number k; 
-k = 2;
- do{
-   print(k);
-   k=1+2;
-   }
-while(2>0);
+number ifState(){
+boolean x; 
+x = true;
+if(!(x)) { 
+print("this condition is a notFalse"); 
+0; 
+} 
+elsif (true) { 
+print("true"); 
+} 
 
+else{
+println("an ELSE");
+22;
+}
 }
 
 // do some stupid things
 number main() {
-  //number x;
+  number x;
   //x = 5 + 7;
   //println(x * 2);
+  ifState();
+
   //count(10);
   //number x; 
   //x = (29r101 + 4);
  // x = doloop();
-  doloop();  
-  //println(2);
-  //gt(5, 2);
+// doloop(); 
 }
 
 

@@ -33,6 +33,7 @@ listsep: ,
 # logical operators
 and: &
 or: \|
+negate_l: ! 
 
 # arithmetic operators
 plus: \+
@@ -82,5 +83,8 @@ id: :letter: (:digit:|:letter:)*
 
 number: -? (:float: | :float: [eE] [-\+]? :integer:?) | :integer:+r(:letter:|:digit:)+  
 
-#integer: r (:letter:*:digit:)+
+
+
+
+
 

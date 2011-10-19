@@ -39,25 +39,64 @@ public class CMMInterpreterVisitor implements
 	}
 
 	public CMMData visit(CMMASTElementNode node, CMMEnvironment data) {
+		if(node.getChild(0).getName().equals("negate_l") && node.getChild(1).getName().equals("Constant"))
+			{
+			//throw new RuntimeException ("cannot use the NOT operator on a non boolean value"+node.getChild(1).getName());
+				
+				CMMData cond= node.getChild(1).accept(this, data);
+				if (!(cond instanceof CMMBoolean)) 
+					return cond;//throw new RuntimeException ("cannot use the NOT operator on a non boolean value");
+				CMMBoolean cd = (CMMBoolean) cond;
+				return new CMMBoolean(!cd.value());
+			}
+			
 		return visitChildren(node, data);
 	}
 
 	public CMMData visit(CMMASTExpressionListNode node, CMMEnvironment data) {
+		
 		return visitChildren(node, data);
 	}
-
+    
+	//SimpleStatement -> negate_l* Assignment eol
 	public CMMData visit(CMMASTSimpleStatementNode node, CMMEnvironment data) {
+		
+		if (node.getChild(0).getName().equals("negate_l")) throw new RuntimeException("found a negate assingment");
 		return visitChildren(node, data);
 	}
-
+     
+	//Constant -> negate_l?  
 	public CMMData visit(CMMASTConstantNode node, CMMEnvironment data) {
-		return visitChildren(node, data);
+		
+		if (node.numChildren() == 1) return node.getChild(0).accept(this, data);
+		
+		CMMData cont = node.getChild(1).accept(this, data);
+		
+		if (!(cont instanceof CMMBoolean)) throw new RuntimeException("Expected a boolean");
+		CMMBoolean cb = (CMMBoolean) cont;
+		
+		//return (new CMMBoolean(cb.value() ? false:true ));  
+		
+		return new CMMBoolean(!(cb.value()));
+		//return visitChildren(node, data);
 	}
 
 	// Assignment -> Logical (gets Logical)?
 	public CMMData visit(CMMASTAssignmentNode node, CMMEnvironment data) {
+		
+		//getChild(0).getName().equals("negate_l")
+		
+		//if (node.getChild(1).getName().equals("Negatedlogical")) throw new RuntimeException("found a bla");
 		if (node.numChildren() > 1) {
-			CMMASTNode n = node.getChild(0);  // Element
+			
+			//if(node.getChild(0).getName().equals("negate_l")) throw new RuntimeException("found a negate! and a" + node.getChild(0).getName() );
+			
+			/**CMMASTNode n = node.getChild(0);  //Negatedlogical
+			if (!n.getName().equals("Negatedlogical") || n.numChildren() != 1)
+				throw new RuntimeException("Assigning to non-lvalue");
+			 n = n.getChild(0);
+			 **/
+			CMMASTNode n = node.getChild(0); //Element
 			if (!n.getName().equals("Element") || n.numChildren() != 1)
 				throw new RuntimeException("Assigning to non-lvalue");
 			n = n.getChild(0);   // ElementPlus
@@ -82,6 +121,9 @@ public class CMMInterpreterVisitor implements
 
 	// Logical -> Comparison ((and|or) Comparison)*  [>1]
 	public CMMData visit(CMMASTLogicalNode node, CMMEnvironment data) {
+		
+		if(node.getChild(0).getName().equals("negate_l")) throw new RuntimeException("found a logical node");
+		
 		CMMData x = node.getChild(0).accept(this, data);
 		if (!(x instanceof CMMBoolean)) {
 			throw new RuntimeException("Invalid operand to logical operator");
@@ -269,9 +311,25 @@ public class CMMInterpreterVisitor implements
 		}
 		return res;
 	}
-
+//conditon -> negate_l* lparen Assignment rparen
 	public CMMData visit(CMMASTConditionNode node, CMMEnvironment data) {
-		return visitChildren(node, data);
+		
+		if (node.numChildren() == 3) return visitChildren(node,data);
+		
+		CMMData cond = node.getChild(2).accept(this, data);
+		
+		if (!(cond instanceof CMMBoolean)) {
+			throw new RuntimeException("Invalid (non-boolean) condition in while loop");
+		}
+		CMMBoolean cd = (CMMBoolean) cond;
+		
+		return new CMMBoolean(!cd.value());
+		//if(node.getChild(0).getName().equals("negate"))
+		
+		
+		
+		//if(node.getChild(0).getName().equals("negate_l")) throw new RuntimeException("found a negation sign");
+		//return visitChildren(node, data);
 	}
 
 	// DoLoop -> do Block while Condition eol
@@ -475,6 +533,22 @@ public class CMMInterpreterVisitor implements
 		return new CMMNumber(returnValue);
 	}
 	
+	// Cond_valueNode -> negate_l? Condition
+	 
+		/**if (node.numChildren() == 1) return node.getChild(0).accept(this, data);
+		
+		CMMData cont = node.getChild(1).accept(this, data);
+		
+		if (!(cont instanceof CMMBoolean)) throw new RuntimeException("Expected a boolean");
+		
+		CMMBoolean cb = (CMMBoolean) cont;
+		
+		//return (new CMMBoolean(cb.value() ? false:true ));  
+		
+		return new CMMBoolean(!(cb.value()));
+		//throw new UnsupportedOperationException(); **/
+	
+	
 	
 	
 	
@@ -486,4 +560,50 @@ public class CMMInterpreterVisitor implements
 		}
 		return last;	
 	}
+
+		
+		public CMMData visit(CMMASTCondvalNode node, CMMEnvironment data) {
+			if (node.numChildren() == 1) return node.getChild(0).accept(this, data);
+			
+			CMMData cont = node.getChild(1).accept(this, data);
+			
+			if (!(cont instanceof CMMBoolean)) throw new RuntimeException("Expected a boolean");
+			
+			CMMBoolean cb = (CMMBoolean) cont;
+			
+			//return (new CMMBoolean(cb.value() ? false:true ));  
+			
+			return new CMMBoolean(!(cb.value()));
+			//throw new UnsupportedOperationException();
+			//return null;
+		}
+		//NegatedlogicalNode -> negate_l* Logical
+		public CMMData visit(CMMASTNegatedlogicalNode node, CMMEnvironment data) {
+			if (node.numChildren() == 1) return node.getChild(0).accept(this, data);
+			
+			
+			
+			CMMData l = node.getChild(node.numChildren()-1).accept(this, data);
+			
+			//ASSUMING THAT LOGICAL WILL ALWAYS RETURN A BOOLEAN DATA
+			
+			
+			Boolean ret = ((CMMBoolean) l).value();
+			
+			for (int i = 0; i < (node.numChildren()-1); i++)
+			{
+				ret = !ret;
+			}
+			
+			return new CMMBoolean(ret);
+			
+			
+			
+			//throw new RuntimeException("found a negated logical node");
+			//return null;
+		}
+
+	
+
+	
 }

@@ -19,6 +19,7 @@ public interface CMMVisitor<X,Y> {
   public X visit(CMMASTWhileLoopNode node, Y data);
   public X visit(CMMASTDoLoopNode node, Y data);
   public X visit(CMMASTExpNode node, Y data);
+  public X visit(CMMASTNegatedlogicalNode node, Y data);
   public X visit(CMMASTFunctionDefinitionNode node, Y data);
   public X visit(CMMASTAssignmentNode node, Y data);
   public X visit(CMMASTStatementNode node, Y data);

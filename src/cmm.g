@@ -22,11 +22,13 @@ DoLoop -> do Block while Condition eol
 
 IfStatement -> if Condition Block (elsif Condition Block)* (else Block)?
 
-Condition -> lparen Assignment rparen
+#Condval ->  lparen Assignment rparen
+Condition ->  lparen Assignment rparen
+
 
 SimpleStatement -> Assignment eol
 
-Assignment -> Logical (gets Logical)?
+Assignment -> Negatedlogical (gets Negatedlogical)?
 
 Logical -> Comparison ((and|or) Comparison)*  [>1]
 Comparison -> Sum ((lt|gt|eq|le|ge|ne) Sum)?  [>1]
@@ -40,3 +42,6 @@ Constant -> string | boolean | number
 
 ArgumentList -> lparen (Assignment (listsep Assignment)*)? rparen
 
+Negatedlogical -> negate_l* Logical [>1]
+
+#Assignment -> Logical (gets Logical)? 

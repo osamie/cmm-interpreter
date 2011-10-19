@@ -33,6 +33,7 @@ listsep: ,
 # logical operators
 and: &
 or: \|
+negate_l: ! 
 
 # arithmetic operators
 plus: \+
@@ -68,7 +69,7 @@ string: "([^"]|\\")*"
 # numeric constants
 :integer: [0123456789]+
 :float: :integer: (\.:integer:)? | \.:integer:
-number: -? (:float: | :float: [eE] [-\+]? :integer:?)
+
 
 # boolean constants
 boolean: true | false
@@ -76,5 +77,14 @@ boolean: true | false
 # identifiers
 :letter: [ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_]
 :digit: [0123456789]
-id: :letter: (:digit:|:letter:)*
+
+#:basic: :letter: (:digit:|:letter:)* 
+id: :letter: (:digit:|:letter:)* 
+
+number: -? (:float: | :float: [eE] [-\+]? :integer:?) | :integer:+r(:letter:|:digit:)+  
+
+
+
+
+
 

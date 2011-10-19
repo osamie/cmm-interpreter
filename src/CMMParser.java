@@ -113,6 +113,7 @@ public class CMMParser {
     if (rulename.equals("WhileLoop")) return new CMMASTWhileLoopNode(rulename, value, multi_child);
     if (rulename.equals("DoLoop")) return new CMMASTDoLoopNode(rulename, value, multi_child);
     if (rulename.equals("Exp")) return new CMMASTExpNode(rulename, value, multi_child);
+    if (rulename.equals("Negatedlogical")) return new CMMASTNegatedlogicalNode(rulename, value, multi_child);
     if (rulename.equals("FunctionDefinition")) return new CMMASTFunctionDefinitionNode(rulename, value, multi_child);
     if (rulename.equals("Assignment")) return new CMMASTAssignmentNode(rulename, value, multi_child);
     if (rulename.equals("Statement")) return new CMMASTStatementNode(rulename, value, multi_child);
@@ -200,6 +201,11 @@ public class CMMParser {
       graph[0] = new GrammarState("Assignment", 2);
       graph[1] = new GrammarState("eol", 1);
       table.get("SimpleStatement").put("lparen", new GrammarRule("SimpleStatement", false, false, graph));
+
+      graph = new GrammarState[2];
+      graph[0] = new GrammarState("Assignment", 2);
+      graph[1] = new GrammarState("eol", 1);
+      table.get("SimpleStatement").put("negate_l", new GrammarRule("SimpleStatement", false, false, graph));
 
       graph = new GrammarState[2];
       graph[0] = new GrammarState("Assignment", 2);
@@ -335,6 +341,37 @@ public class CMMParser {
       graph[0] = new GrammarState("Sum{22}", 2);
       graph[1] = new GrammarState("Term", 2);
       table.get("Sum{21}").put("minus", new GrammarRule("Sum{21}", false, true, graph));
+
+    table.put("Negatedlogical", new HashMap<String, GrammarRule>());
+      graph = new GrammarState[2];
+      graph[0] = new GrammarState("Negatedlogical{34}", 2);
+      graph[1] = new GrammarState("Logical", 2);
+      table.get("Negatedlogical").put("id", new GrammarRule("Negatedlogical", true, false, graph));
+
+      graph = new GrammarState[2];
+      graph[0] = new GrammarState("Negatedlogical{34}", 2);
+      graph[1] = new GrammarState("Logical", 2);
+      table.get("Negatedlogical").put("lparen", new GrammarRule("Negatedlogical", true, false, graph));
+
+      graph = new GrammarState[2];
+      graph[0] = new GrammarState("Negatedlogical{34}", 2);
+      graph[1] = new GrammarState("Logical", 2);
+      table.get("Negatedlogical").put("negate_l", new GrammarRule("Negatedlogical", true, false, graph));
+
+      graph = new GrammarState[2];
+      graph[0] = new GrammarState("Negatedlogical{34}", 2);
+      graph[1] = new GrammarState("Logical", 2);
+      table.get("Negatedlogical").put("string", new GrammarRule("Negatedlogical", true, false, graph));
+
+      graph = new GrammarState[2];
+      graph[0] = new GrammarState("Negatedlogical{34}", 2);
+      graph[1] = new GrammarState("Logical", 2);
+      table.get("Negatedlogical").put("number", new GrammarRule("Negatedlogical", true, false, graph));
+
+      graph = new GrammarState[2];
+      graph[0] = new GrammarState("Negatedlogical{34}", 2);
+      graph[1] = new GrammarState("Logical", 2);
+      table.get("Negatedlogical").put("boolean", new GrammarRule("Negatedlogical", true, false, graph));
 
     table.put("Program", new HashMap<String, GrammarRule>());
       graph = new GrammarState[2];
@@ -603,15 +640,19 @@ public class CMMParser {
 
       graph = new GrammarState[1];
       graph[0] = new GrammarState("\0", 3);
+      table.get("IfStatement{10}").put("negate_l", new GrammarRule("IfStatement{10}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
       table.get("IfStatement{10}").put("string", new GrammarRule("IfStatement{10}", false, true, graph));
 
       graph = new GrammarState[1];
       graph[0] = new GrammarState("\0", 3);
-      table.get("IfStatement{10}").put("boolean", new GrammarRule("IfStatement{10}", false, true, graph));
+      table.get("IfStatement{10}").put("do", new GrammarRule("IfStatement{10}", false, true, graph));
 
       graph = new GrammarState[1];
       graph[0] = new GrammarState("\0", 3);
-      table.get("IfStatement{10}").put("do", new GrammarRule("IfStatement{10}", false, true, graph));
+      table.get("IfStatement{10}").put("boolean", new GrammarRule("IfStatement{10}", false, true, graph));
 
       graph = new GrammarState[1];
       graph[0] = new GrammarState("\0", 3);
@@ -620,6 +661,32 @@ public class CMMParser {
       graph = new GrammarState[1];
       graph[0] = new GrammarState("\0", 3);
       table.get("IfStatement{10}").put("be", new GrammarRule("IfStatement{10}", false, true, graph));
+
+    table.put("Negatedlogical{34}", new HashMap<String, GrammarRule>());
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Negatedlogical{34}").put("id", new GrammarRule("Negatedlogical{34}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Negatedlogical{34}").put("lparen", new GrammarRule("Negatedlogical{34}", false, true, graph));
+
+      graph = new GrammarState[2];
+      graph[0] = new GrammarState("negate_l", 1);
+      graph[1] = new GrammarState("Negatedlogical{34}", 2);
+      table.get("Negatedlogical{34}").put("negate_l", new GrammarRule("Negatedlogical{34}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Negatedlogical{34}").put("string", new GrammarRule("Negatedlogical{34}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Negatedlogical{34}").put("boolean", new GrammarRule("Negatedlogical{34}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Negatedlogical{34}").put("number", new GrammarRule("Negatedlogical{34}", false, true, graph));
 
     table.put("ArgumentList{30}", new HashMap<String, GrammarRule>());
       graph = new GrammarState[2];
@@ -631,6 +698,11 @@ public class CMMParser {
       graph[0] = new GrammarState("Assignment", 2);
       graph[1] = new GrammarState("ArgumentList{32}", 2);
       table.get("ArgumentList{30}").put("lparen", new GrammarRule("ArgumentList{30}", false, true, graph));
+
+      graph = new GrammarState[2];
+      graph[0] = new GrammarState("Assignment", 2);
+      graph[1] = new GrammarState("ArgumentList{32}", 2);
+      table.get("ArgumentList{30}").put("negate_l", new GrammarRule("ArgumentList{30}", false, true, graph));
 
       graph = new GrammarState[2];
       graph[0] = new GrammarState("Assignment", 2);
@@ -765,6 +837,10 @@ public class CMMParser {
       table.get("Statement").put("lparen", new GrammarRule("Statement", false, false, graph));
 
       graph = new GrammarState[1];
+      graph[0] = new GrammarState("SimpleStatement", 2);
+      table.get("Statement").put("negate_l", new GrammarRule("Statement", false, false, graph));
+
+      graph = new GrammarState[1];
       graph[0] = new GrammarState("IfStatement", 2);
       table.get("Statement").put("if", new GrammarRule("Statement", false, false, graph));
 
@@ -812,27 +888,32 @@ public class CMMParser {
 
     table.put("Assignment", new HashMap<String, GrammarRule>());
       graph = new GrammarState[2];
-      graph[0] = new GrammarState("Logical", 2);
+      graph[0] = new GrammarState("Negatedlogical", 2);
       graph[1] = new GrammarState("Assignment{14}", 2);
       table.get("Assignment").put("id", new GrammarRule("Assignment", false, false, graph));
 
       graph = new GrammarState[2];
-      graph[0] = new GrammarState("Logical", 2);
+      graph[0] = new GrammarState("Negatedlogical", 2);
       graph[1] = new GrammarState("Assignment{14}", 2);
       table.get("Assignment").put("lparen", new GrammarRule("Assignment", false, false, graph));
 
       graph = new GrammarState[2];
-      graph[0] = new GrammarState("Logical", 2);
+      graph[0] = new GrammarState("Negatedlogical", 2);
+      graph[1] = new GrammarState("Assignment{14}", 2);
+      table.get("Assignment").put("negate_l", new GrammarRule("Assignment", false, false, graph));
+
+      graph = new GrammarState[2];
+      graph[0] = new GrammarState("Negatedlogical", 2);
       graph[1] = new GrammarState("Assignment{14}", 2);
       table.get("Assignment").put("string", new GrammarRule("Assignment", false, false, graph));
 
       graph = new GrammarState[2];
-      graph[0] = new GrammarState("Logical", 2);
+      graph[0] = new GrammarState("Negatedlogical", 2);
       graph[1] = new GrammarState("Assignment{14}", 2);
       table.get("Assignment").put("number", new GrammarRule("Assignment", false, false, graph));
 
       graph = new GrammarState[2];
-      graph[0] = new GrammarState("Logical", 2);
+      graph[0] = new GrammarState("Negatedlogical", 2);
       graph[1] = new GrammarState("Assignment{14}", 2);
       table.get("Assignment").put("boolean", new GrammarRule("Assignment", false, false, graph));
 
@@ -1034,22 +1115,7 @@ public class CMMParser {
       graph = new GrammarState[2];
       graph[0] = new GrammarState("Statement", 2);
       graph[1] = new GrammarState("ExpressionList{6}", 2);
-      table.get("ExpressionList{6}").put("id", new GrammarRule("ExpressionList{6}", false, true, graph));
-
-      graph = new GrammarState[2];
-      graph[0] = new GrammarState("Statement", 2);
-      graph[1] = new GrammarState("ExpressionList{6}", 2);
       table.get("ExpressionList{6}").put("lparen", new GrammarRule("ExpressionList{6}", false, true, graph));
-
-      graph = new GrammarState[2];
-      graph[0] = new GrammarState("Statement", 2);
-      graph[1] = new GrammarState("ExpressionList{6}", 2);
-      table.get("ExpressionList{6}").put("if", new GrammarRule("ExpressionList{6}", false, true, graph));
-
-      graph = new GrammarState[2];
-      graph[0] = new GrammarState("Statement", 2);
-      graph[1] = new GrammarState("ExpressionList{6}", 2);
-      table.get("ExpressionList{6}").put("string", new GrammarRule("ExpressionList{6}", false, true, graph));
 
       graph = new GrammarState[2];
       graph[0] = new GrammarState("Statement", 2);
@@ -1064,7 +1130,32 @@ public class CMMParser {
       graph = new GrammarState[2];
       graph[0] = new GrammarState("Statement", 2);
       graph[1] = new GrammarState("ExpressionList{6}", 2);
-      table.get("ExpressionList{6}").put("boolean", new GrammarRule("ExpressionList{6}", false, true, graph));
+      table.get("ExpressionList{6}").put("number_t", new GrammarRule("ExpressionList{6}", false, true, graph));
+
+      graph = new GrammarState[2];
+      graph[0] = new GrammarState("Statement", 2);
+      graph[1] = new GrammarState("ExpressionList{6}", 2);
+      table.get("ExpressionList{6}").put("while", new GrammarRule("ExpressionList{6}", false, true, graph));
+
+      graph = new GrammarState[2];
+      graph[0] = new GrammarState("Statement", 2);
+      graph[1] = new GrammarState("ExpressionList{6}", 2);
+      table.get("ExpressionList{6}").put("id", new GrammarRule("ExpressionList{6}", false, true, graph));
+
+      graph = new GrammarState[2];
+      graph[0] = new GrammarState("Statement", 2);
+      graph[1] = new GrammarState("ExpressionList{6}", 2);
+      table.get("ExpressionList{6}").put("if", new GrammarRule("ExpressionList{6}", false, true, graph));
+
+      graph = new GrammarState[2];
+      graph[0] = new GrammarState("Statement", 2);
+      graph[1] = new GrammarState("ExpressionList{6}", 2);
+      table.get("ExpressionList{6}").put("negate_l", new GrammarRule("ExpressionList{6}", false, true, graph));
+
+      graph = new GrammarState[2];
+      graph[0] = new GrammarState("Statement", 2);
+      graph[1] = new GrammarState("ExpressionList{6}", 2);
+      table.get("ExpressionList{6}").put("string", new GrammarRule("ExpressionList{6}", false, true, graph));
 
       graph = new GrammarState[2];
       graph[0] = new GrammarState("Statement", 2);
@@ -1074,7 +1165,7 @@ public class CMMParser {
       graph = new GrammarState[2];
       graph[0] = new GrammarState("Statement", 2);
       graph[1] = new GrammarState("ExpressionList{6}", 2);
-      table.get("ExpressionList{6}").put("number_t", new GrammarRule("ExpressionList{6}", false, true, graph));
+      table.get("ExpressionList{6}").put("boolean", new GrammarRule("ExpressionList{6}", false, true, graph));
 
       graph = new GrammarState[2];
       graph[0] = new GrammarState("Statement", 2);
@@ -1084,11 +1175,6 @@ public class CMMParser {
       graph = new GrammarState[1];
       graph[0] = new GrammarState("\0", 3);
       table.get("ExpressionList{6}").put("be", new GrammarRule("ExpressionList{6}", false, true, graph));
-
-      graph = new GrammarState[2];
-      graph[0] = new GrammarState("Statement", 2);
-      graph[1] = new GrammarState("ExpressionList{6}", 2);
-      table.get("ExpressionList{6}").put("while", new GrammarRule("ExpressionList{6}", false, true, graph));
 
     table.put("Logical{15}", new HashMap<String, GrammarRule>());
       graph = new GrammarState[2];
@@ -1257,19 +1343,7 @@ public class CMMParser {
     table.put("ExpressionList", new HashMap<String, GrammarRule>());
       graph = new GrammarState[1];
       graph[0] = new GrammarState("ExpressionList{6}", 2);
-      table.get("ExpressionList").put("id", new GrammarRule("ExpressionList", false, false, graph));
-
-      graph = new GrammarState[1];
-      graph[0] = new GrammarState("ExpressionList{6}", 2);
       table.get("ExpressionList").put("lparen", new GrammarRule("ExpressionList", false, false, graph));
-
-      graph = new GrammarState[1];
-      graph[0] = new GrammarState("ExpressionList{6}", 2);
-      table.get("ExpressionList").put("if", new GrammarRule("ExpressionList", false, false, graph));
-
-      graph = new GrammarState[1];
-      graph[0] = new GrammarState("ExpressionList{6}", 2);
-      table.get("ExpressionList").put("string", new GrammarRule("ExpressionList", false, false, graph));
 
       graph = new GrammarState[1];
       graph[0] = new GrammarState("ExpressionList{6}", 2);
@@ -1281,7 +1355,27 @@ public class CMMParser {
 
       graph = new GrammarState[1];
       graph[0] = new GrammarState("ExpressionList{6}", 2);
-      table.get("ExpressionList").put("boolean", new GrammarRule("ExpressionList", false, false, graph));
+      table.get("ExpressionList").put("number_t", new GrammarRule("ExpressionList", false, false, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("ExpressionList{6}", 2);
+      table.get("ExpressionList").put("while", new GrammarRule("ExpressionList", false, false, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("ExpressionList{6}", 2);
+      table.get("ExpressionList").put("id", new GrammarRule("ExpressionList", false, false, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("ExpressionList{6}", 2);
+      table.get("ExpressionList").put("if", new GrammarRule("ExpressionList", false, false, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("ExpressionList{6}", 2);
+      table.get("ExpressionList").put("negate_l", new GrammarRule("ExpressionList", false, false, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("ExpressionList{6}", 2);
+      table.get("ExpressionList").put("string", new GrammarRule("ExpressionList", false, false, graph));
 
       graph = new GrammarState[1];
       graph[0] = new GrammarState("ExpressionList{6}", 2);
@@ -1289,7 +1383,7 @@ public class CMMParser {
 
       graph = new GrammarState[1];
       graph[0] = new GrammarState("ExpressionList{6}", 2);
-      table.get("ExpressionList").put("number_t", new GrammarRule("ExpressionList", false, false, graph));
+      table.get("ExpressionList").put("boolean", new GrammarRule("ExpressionList", false, false, graph));
 
       graph = new GrammarState[1];
       graph[0] = new GrammarState("ExpressionList{6}", 2);
@@ -1298,10 +1392,6 @@ public class CMMParser {
       graph = new GrammarState[1];
       graph[0] = new GrammarState("ExpressionList{6}", 2);
       table.get("ExpressionList").put("be", new GrammarRule("ExpressionList", false, false, graph));
-
-      graph = new GrammarState[1];
-      graph[0] = new GrammarState("ExpressionList{6}", 2);
-      table.get("ExpressionList").put("while", new GrammarRule("ExpressionList", false, false, graph));
 
     table.put("ParameterList{5}", new HashMap<String, GrammarRule>());
       graph = new GrammarState[1];
@@ -1355,15 +1445,19 @@ public class CMMParser {
 
       graph = new GrammarState[1];
       graph[0] = new GrammarState("\0", 3);
+      table.get("IfStatement{12}").put("negate_l", new GrammarRule("IfStatement{12}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
       table.get("IfStatement{12}").put("string", new GrammarRule("IfStatement{12}", false, true, graph));
 
       graph = new GrammarState[1];
       graph[0] = new GrammarState("\0", 3);
-      table.get("IfStatement{12}").put("boolean", new GrammarRule("IfStatement{12}", false, true, graph));
+      table.get("IfStatement{12}").put("do", new GrammarRule("IfStatement{12}", false, true, graph));
 
       graph = new GrammarState[1];
       graph[0] = new GrammarState("\0", 3);
-      table.get("IfStatement{12}").put("do", new GrammarRule("IfStatement{12}", false, true, graph));
+      table.get("IfStatement{12}").put("boolean", new GrammarRule("IfStatement{12}", false, true, graph));
 
       graph = new GrammarState[1];
       graph[0] = new GrammarState("\0", 3);
@@ -1388,6 +1482,10 @@ public class CMMParser {
 
       graph = new GrammarState[1];
       graph[0] = new GrammarState("ArgumentList{30}", 2);
+      table.get("ArgumentList{33}").put("negate_l", new GrammarRule("ArgumentList{33}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("ArgumentList{30}", 2);
       table.get("ArgumentList{33}").put("string", new GrammarRule("ArgumentList{33}", false, true, graph));
 
       graph = new GrammarState[1];
@@ -1401,7 +1499,7 @@ public class CMMParser {
     table.put("Assignment{13}", new HashMap<String, GrammarRule>());
       graph = new GrammarState[2];
       graph[0] = new GrammarState("gets", 1);
-      graph[1] = new GrammarState("Logical", 2);
+      graph[1] = new GrammarState("Negatedlogical", 2);
       table.get("Assignment{13}").put("gets", new GrammarRule("Assignment{13}", false, true, graph));
 
     table.put("Sum{22}", new HashMap<String, GrammarRule>());

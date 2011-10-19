@@ -19,6 +19,40 @@ import java.util.List;
  */
 public class CMMASTTdd {
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
     private static final String[] test01 = new String[]{
         "boolean main() { number x; x = 2r10010; print(x); true; }=>18.0=>=>5",
         "boolean main() { number x; x = 18; print(x); true; }=>18.0=>Decimal requires a base. =>3",
