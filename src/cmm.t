@@ -65,8 +65,14 @@ number_t: number
 string_t: string
 boolean_t: boolean
 
+#concat operator
+
+concat: \.
+
 # string constants
-string: "([^"]|\\")*"
+string: "([^"]|\\")*" 
+
+#(:concat: "([^"]|\\")*" )*  
 
 # numeric constants
 :integer: [0123456789]+

@@ -65,19 +65,20 @@ public class CMMInterpreterVisitor implements
 		return visitChildren(node, data);
 	}
      
-	//Constant -> negate_l?  
+	//Constant -> string (concat string)* ....  
 	public CMMData visit(CMMASTConstantNode node, CMMEnvironment data) {
 		
 		if (node.numChildren() == 1) return node.getChild(0).accept(this, data);
 		
-		CMMData cont = node.getChild(1).accept(this, data);
+		/**CMMData cont = node.getChild(1).accept(this, data);
 		
 		if (!(cont instanceof CMMBoolean)) throw new RuntimeException("Expected a boolean");
 		CMMBoolean cb = (CMMBoolean) cont;
-		
+		**/
 		//return (new CMMBoolean(cb.value() ? false:true ));  
+		throw new RuntimeException("Found a concat string operation!");
 		
-		return new CMMBoolean(!(cb.value()));
+		//return new CMMBoolean(!(cb.value()));
 		//return visitChildren(node, data);
 	}
 
@@ -253,7 +254,11 @@ public class CMMInterpreterVisitor implements
 	public CMMData visit(CMMASTElementPlusNode node, CMMEnvironment data) {
 		if (node.numChildren() == 1) { // just an identifier
 			return node.getChild(0).accept(this, data); 
-		} else { // a function call
+		} 
+		
+		if(node.getChild(1).getName().equals("String")) 
+			throw new RuntimeException("Found a string");
+		else { // a function call
 			String fname = node.getChild(0).getValue();
 			if (fname.equals("print")) {
 				CMMData res = visitChildren(node.getChild(1), data);
@@ -623,6 +628,59 @@ public class CMMInterpreterVisitor implements
 			
 				
 			//throw new RuntimeException("found a tenary operator" + node.getChild(0));
+		}
+		
+		public CMMData visit(CMMASTConcantStringNode node, CMMEnvironment data) {
+			
+			throw new RuntimeException("found a concat operator");
+			//return null;
+			
+		}
+
+		public CMMData visit(CMMASTConcatStringNode node, CMMEnvironment data) {
+			// TODO Auto-generated method stub
+			return node.getChild(0).accept(this, data);
+			//if (node.numChildren() == 1) 
+			//throw new RuntimeException("found a concat operator, with number of children: " + node.numChildren());
+			//return null;
+			//return null;
+		}
+//		               0              1              2/4/6...
+//String -> (Constant|ElementPlus) (concat (Constant|ElementPlus))*		
+		public CMMData visit(CMMASTStringNode node, CMMEnvironment data) {
+
+			
+			if (node.numChildren() == 1) return node.getChild(0).accept(this, data);
+			
+			//TODO Type checking for child 0 and 2
+			
+			CMMData a = node.getChild(0).accept(this, data);
+			
+			if  (!(a instanceof CMMString)) 
+				throw new RuntimeException("Expected a String"); 
+			
+			CMMData b;
+			String stra = ((CMMString) a).value();
+			
+			//node.getChild(2).accept(this, data);
+			for(int i = 2; i < node.numChildren(); i++)
+			{
+				b=node.getChild(i).accept(this, data);
+				if  (!(b instanceof CMMString )) 
+				      throw new RuntimeException("Expected a String");
+				CMMString strb = (CMMString) b;
+				stra += strb.value();
+				i++;
+			}
+			  
+			return new CMMString(stra);
+			
+			//replace(" \" \" ," ");
+			//return new CMMString(ret);
+			//return new CMMString(str1.value() + str2.value());
+			
+			//throw new RuntimeException("found a concatString" + c.toString());
+			//return null;
 		}
 
 	

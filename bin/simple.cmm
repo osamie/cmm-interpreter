@@ -3,20 +3,25 @@ number count(number n) {
   number i;
   i = 0;
   while (i < n) {
-    i = ZUZU ;
-    println("");
+    //i = ZUZU ;
+    //println(" ");
     println(i);
   }
   i;
 }
 
 number ifState(){
-Number x; 
-x = 3; 
+string x;
+string y; 
+//string z;
+x = "love";
+y ="hate";  
+
+
 //true?1:3;
 if(!false) { 
 //print("this condition is a notFalse"); 
-print(1);
+println(x." ".y);
 0; 
 } 
 elsif (true) { 

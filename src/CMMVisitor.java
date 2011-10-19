@@ -11,6 +11,7 @@ public interface CMMVisitor<X,Y> {
   public X visit(CMMASTParameterListNode node, Y data);
   public X visit(CMMASTArgumentListNode node, Y data);
   public X visit(CMMASTTenaryNode node, Y data);
+  public X visit(CMMASTConcatStringNode node, Y data);
   public X visit(CMMASTElementNode node, Y data);
   public X visit(CMMASTExpressionListNode node, Y data);
   public X visit(CMMASTComparisonNode node, Y data);
@@ -23,6 +24,7 @@ public interface CMMVisitor<X,Y> {
   public X visit(CMMASTNegatedlogicalNode node, Y data);
   public X visit(CMMASTFunctionDefinitionNode node, Y data);
   public X visit(CMMASTAssignmentNode node, Y data);
+  public X visit(CMMASTStringNode node, Y data);
   public X visit(CMMASTStatementNode node, Y data);
   public X visit(CMMASTTypeNode node, Y data);
   public X visit(CMMASTIfStatementNode node, Y data);
