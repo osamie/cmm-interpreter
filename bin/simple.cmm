@@ -21,7 +21,7 @@ y ="hate";
 //true?1:3;
 if(!false) { 
 //print("this condition is a notFalse"); 
-println(x." ".y);
+println(x" "y);
 0; 
 } 
 elsif (true) { 

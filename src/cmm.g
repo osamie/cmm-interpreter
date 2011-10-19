@@ -44,7 +44,7 @@ ElementPlus -> id ArgumentList?
 
 Constant -> string | boolean | number
 
-String -> (Constant|ElementPlus) (concat (Constant|ElementPlus))*  [>1]
+String -> (Constant|ElementPlus) ((concat? (Constant|ElementPlus))* )  [>1]
  
 ConcatString -> string
 
