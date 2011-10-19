@@ -602,6 +602,28 @@ public class CMMInterpreterVisitor implements
 			//throw new RuntimeException("found a negated logical node");
 			//return null;
 		}
+		//x=a?b:c       0            1             2           3            4
+		//Tenary -> Comparison ( tenary_op1   Comparison   tenary_op2   Comparison )
+		public CMMData visit(CMMASTTenaryNode node, CMMEnvironment data) {
+			if(node.numChildren()==1) return node.getChild(0).accept(this, data);
+			
+			//Check if comparison is boolean 
+			
+			CMMData c = node.getChild(0).accept(this, data);
+			
+			if (!(c instanceof CMMBoolean )) throw new RuntimeException("Expected a boolean"); 
+				
+				//throw new RuntimeException("Expected a boolean");
+			
+			Boolean cond = ((CMMBoolean) c).value();
+			
+			if (cond) return node.getChild(2).accept(this,data);
+			return node.getChild(4).accept(this,data);
+			
+			
+				
+			//throw new RuntimeException("found a tenary operator" + node.getChild(0));
+		}
 
 	
 

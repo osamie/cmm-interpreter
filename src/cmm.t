@@ -34,6 +34,8 @@ listsep: ,
 and: &
 or: \|
 negate_l: ! 
+tenary_op1: \?
+tenary_op2: \:
 
 # arithmetic operators
 plus: \+

@@ -10,6 +10,7 @@ public interface CMMVisitor<X,Y> {
   public X visit(CMMASTLogicalNode node, Y data);
   public X visit(CMMASTParameterListNode node, Y data);
   public X visit(CMMASTArgumentListNode node, Y data);
+  public X visit(CMMASTTenaryNode node, Y data);
   public X visit(CMMASTElementNode node, Y data);
   public X visit(CMMASTExpressionListNode node, Y data);
   public X visit(CMMASTComparisonNode node, Y data);

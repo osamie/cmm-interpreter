@@ -30,8 +30,11 @@ SimpleStatement -> Assignment eol
 
 Assignment -> Negatedlogical (gets Negatedlogical)?
 
-Logical -> Comparison ((and|or) Comparison)*  [>1]
+Logical -> Tenary ((and|or) Tenary)*  [>1]
+
+
 Comparison -> Sum ((lt|gt|eq|le|ge|ne) Sum)?  [>1]
+
 Sum -> Term ((plus|minus) Term)*  [>1]
 Term -> Exp ((multiply|divide|mod) Exp)* [>1]  
 Exp -> Element (exp Element)*  [>1] 
@@ -43,5 +46,7 @@ Constant -> string | boolean | number
 ArgumentList -> lparen (Assignment (listsep Assignment)*)? rparen
 
 Negatedlogical -> negate_l* Logical [>1]
+
+Tenary -> Comparison (tenary_op1 Comparison tenary_op2 Comparison)? [>1] 
 
 #Assignment -> Logical (gets Logical)? 
