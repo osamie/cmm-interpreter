@@ -37,8 +37,9 @@ println("an ELSE");
 // do some stupid things
 number main() {
   number x=3,y=9;
+  string k = "love";
   //x = 5 + 7;
-  println(x+y);
+  println(k[2]);
   //ifState();
 
   //count(10);

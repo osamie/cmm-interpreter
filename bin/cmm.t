@@ -27,6 +27,10 @@ be: }
 lparen: \(
 rparen: \)
 
+#indexBraces
+oindex: \[
+cindex: \]
+
 # list separator
 listsep: ,
 

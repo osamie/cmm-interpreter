@@ -5,6 +5,7 @@ public interface CMMVisitor<X,Y> {
   public X visit(CMMASTNode node, Y data);
   public X visit(CMMASTStatementNode node, Y data);
   public X visit(CMMASTParameterNode node, Y data);
+  public X visit(CMMASTSubscriptNode node, Y data);
   public X visit(CMMASTFunctionDefinitionNode node, Y data);
   public X visit(CMMASTNegatedlogicalNode node, Y data);
   public X visit(CMMASTWhileLoopNode node, Y data);

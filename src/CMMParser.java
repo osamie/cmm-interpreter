@@ -99,6 +99,7 @@ public class CMMParser {
   private CMMASTNode makenode(String rulename, String value, boolean multi_child) {
     if (rulename.equals("Statement")) return new CMMASTStatementNode(rulename, value, multi_child);
     if (rulename.equals("Parameter")) return new CMMASTParameterNode(rulename, value, multi_child);
+    if (rulename.equals("Subscript")) return new CMMASTSubscriptNode(rulename, value, multi_child);
     if (rulename.equals("FunctionDefinition")) return new CMMASTFunctionDefinitionNode(rulename, value, multi_child);
     if (rulename.equals("Negatedlogical")) return new CMMASTNegatedlogicalNode(rulename, value, multi_child);
     if (rulename.equals("WhileLoop")) return new CMMASTWhileLoopNode(rulename, value, multi_child);
@@ -130,12 +131,6 @@ public class CMMParser {
 
   private void buildTable() {
     GrammarState[] graph;
-    table.put("ArgumentList{41}", new HashMap<String, GrammarRule>());
-      graph = new GrammarState[2];
-      graph[0] = new GrammarState("listsep", 1);
-      graph[1] = new GrammarState("Assignment", 2);
-      table.get("ArgumentList{41}").put("listsep", new GrammarRule("ArgumentList{41}", false, true, graph));
-
     table.put("Logical{20}", new HashMap<String, GrammarRule>());
       graph = new GrammarState[1];
       graph[0] = new GrammarState("or", 1);
@@ -246,6 +241,14 @@ public class CMMParser {
       graph[1] = new GrammarState("eol", 1);
       table.get("SimpleStatement").put("boolean", new GrammarRule("SimpleStatement", false, false, graph));
 
+    table.put("Tenary{47}", new HashMap<String, GrammarRule>());
+      graph = new GrammarState[4];
+      graph[0] = new GrammarState("tenary_op1", 1);
+      graph[1] = new GrammarState("Comparison", 2);
+      graph[2] = new GrammarState("tenary_op2", 1);
+      graph[3] = new GrammarState("Comparison", 2);
+      table.get("Tenary{47}").put("tenary_op1", new GrammarRule("Tenary{47}", false, true, graph));
+
     table.put("Assignment{18}", new HashMap<String, GrammarRule>());
       graph = new GrammarState[1];
       graph[0] = new GrammarState("\0", 3);
@@ -347,6 +350,10 @@ public class CMMParser {
 
       graph = new GrammarState[1];
       graph[0] = new GrammarState("\0", 3);
+      table.get("ElementPlus{33}").put("oindex", new GrammarRule("ElementPlus{33}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
       table.get("ElementPlus{33}").put("ge", new GrammarRule("ElementPlus{33}", false, true, graph));
 
       graph = new GrammarState[1];
@@ -407,11 +414,11 @@ public class CMMParser {
 
       graph = new GrammarState[1];
       graph[0] = new GrammarState("\0", 3);
-      table.get("ElementPlus{33}").put("divide", new GrammarRule("ElementPlus{33}", false, true, graph));
+      table.get("ElementPlus{33}").put("number", new GrammarRule("ElementPlus{33}", false, true, graph));
 
       graph = new GrammarState[1];
       graph[0] = new GrammarState("\0", 3);
-      table.get("ElementPlus{33}").put("number", new GrammarRule("ElementPlus{33}", false, true, graph));
+      table.get("ElementPlus{33}").put("divide", new GrammarRule("ElementPlus{33}", false, true, graph));
 
       graph = new GrammarState[1];
       graph[0] = new GrammarState("\0", 3);
@@ -435,11 +442,11 @@ public class CMMParser {
 
       graph = new GrammarState[1];
       graph[0] = new GrammarState("\0", 3);
-      table.get("ElementPlus{33}").put("string", new GrammarRule("ElementPlus{33}", false, true, graph));
+      table.get("ElementPlus{33}").put("ne", new GrammarRule("ElementPlus{33}", false, true, graph));
 
       graph = new GrammarState[1];
       graph[0] = new GrammarState("\0", 3);
-      table.get("ElementPlus{33}").put("ne", new GrammarRule("ElementPlus{33}", false, true, graph));
+      table.get("ElementPlus{33}").put("string", new GrammarRule("ElementPlus{33}", false, true, graph));
 
       graph = new GrammarState[1];
       graph[0] = new GrammarState("\0", 3);
@@ -481,32 +488,32 @@ public class CMMParser {
 
     table.put("Negatedlogical", new HashMap<String, GrammarRule>());
       graph = new GrammarState[2];
-      graph[0] = new GrammarState("Negatedlogical{44}", 2);
+      graph[0] = new GrammarState("Negatedlogical{46}", 2);
       graph[1] = new GrammarState("Logical", 2);
       table.get("Negatedlogical").put("id", new GrammarRule("Negatedlogical", true, false, graph));
 
       graph = new GrammarState[2];
-      graph[0] = new GrammarState("Negatedlogical{44}", 2);
+      graph[0] = new GrammarState("Negatedlogical{46}", 2);
       graph[1] = new GrammarState("Logical", 2);
       table.get("Negatedlogical").put("lparen", new GrammarRule("Negatedlogical", true, false, graph));
 
       graph = new GrammarState[2];
-      graph[0] = new GrammarState("Negatedlogical{44}", 2);
+      graph[0] = new GrammarState("Negatedlogical{46}", 2);
       graph[1] = new GrammarState("Logical", 2);
       table.get("Negatedlogical").put("negate_l", new GrammarRule("Negatedlogical", true, false, graph));
 
       graph = new GrammarState[2];
-      graph[0] = new GrammarState("Negatedlogical{44}", 2);
+      graph[0] = new GrammarState("Negatedlogical{46}", 2);
       graph[1] = new GrammarState("Logical", 2);
       table.get("Negatedlogical").put("string", new GrammarRule("Negatedlogical", true, false, graph));
 
       graph = new GrammarState[2];
-      graph[0] = new GrammarState("Negatedlogical{44}", 2);
+      graph[0] = new GrammarState("Negatedlogical{46}", 2);
       graph[1] = new GrammarState("Logical", 2);
       table.get("Negatedlogical").put("number", new GrammarRule("Negatedlogical", true, false, graph));
 
       graph = new GrammarState[2];
-      graph[0] = new GrammarState("Negatedlogical{44}", 2);
+      graph[0] = new GrammarState("Negatedlogical{46}", 2);
       graph[1] = new GrammarState("Logical", 2);
       table.get("Negatedlogical").put("boolean", new GrammarRule("Negatedlogical", true, false, graph));
 
@@ -596,50 +603,40 @@ public class CMMParser {
       table.get("Comparison{22}").put("eq", new GrammarRule("Comparison{22}", false, true, graph));
 
     table.put("ArgumentList{42}", new HashMap<String, GrammarRule>());
-      graph = new GrammarState[1];
-      graph[0] = new GrammarState("\0", 3);
-      table.get("ArgumentList{42}").put("rparen", new GrammarRule("ArgumentList{42}", false, true, graph));
+      graph = new GrammarState[2];
+      graph[0] = new GrammarState("Assignment", 2);
+      graph[1] = new GrammarState("ArgumentList{44}", 2);
+      table.get("ArgumentList{42}").put("id", new GrammarRule("ArgumentList{42}", false, true, graph));
 
       graph = new GrammarState[2];
-      graph[0] = new GrammarState("ArgumentList{41}", 2);
-      graph[1] = new GrammarState("ArgumentList{42}", 2);
-      table.get("ArgumentList{42}").put("listsep", new GrammarRule("ArgumentList{42}", false, true, graph));
+      graph[0] = new GrammarState("Assignment", 2);
+      graph[1] = new GrammarState("ArgumentList{44}", 2);
+      table.get("ArgumentList{42}").put("lparen", new GrammarRule("ArgumentList{42}", false, true, graph));
+
+      graph = new GrammarState[2];
+      graph[0] = new GrammarState("Assignment", 2);
+      graph[1] = new GrammarState("ArgumentList{44}", 2);
+      table.get("ArgumentList{42}").put("negate_l", new GrammarRule("ArgumentList{42}", false, true, graph));
+
+      graph = new GrammarState[2];
+      graph[0] = new GrammarState("Assignment", 2);
+      graph[1] = new GrammarState("ArgumentList{44}", 2);
+      table.get("ArgumentList{42}").put("string", new GrammarRule("ArgumentList{42}", false, true, graph));
+
+      graph = new GrammarState[2];
+      graph[0] = new GrammarState("Assignment", 2);
+      graph[1] = new GrammarState("ArgumentList{44}", 2);
+      table.get("ArgumentList{42}").put("number", new GrammarRule("ArgumentList{42}", false, true, graph));
+
+      graph = new GrammarState[2];
+      graph[0] = new GrammarState("Assignment", 2);
+      graph[1] = new GrammarState("ArgumentList{44}", 2);
+      table.get("ArgumentList{42}").put("boolean", new GrammarRule("ArgumentList{42}", false, true, graph));
 
     table.put("ConcatString", new HashMap<String, GrammarRule>());
       graph = new GrammarState[1];
       graph[0] = new GrammarState("string", 1);
       table.get("ConcatString").put("string", new GrammarRule("ConcatString", false, false, graph));
-
-    table.put("ArgumentList{40}", new HashMap<String, GrammarRule>());
-      graph = new GrammarState[2];
-      graph[0] = new GrammarState("Assignment", 2);
-      graph[1] = new GrammarState("ArgumentList{42}", 2);
-      table.get("ArgumentList{40}").put("id", new GrammarRule("ArgumentList{40}", false, true, graph));
-
-      graph = new GrammarState[2];
-      graph[0] = new GrammarState("Assignment", 2);
-      graph[1] = new GrammarState("ArgumentList{42}", 2);
-      table.get("ArgumentList{40}").put("lparen", new GrammarRule("ArgumentList{40}", false, true, graph));
-
-      graph = new GrammarState[2];
-      graph[0] = new GrammarState("Assignment", 2);
-      graph[1] = new GrammarState("ArgumentList{42}", 2);
-      table.get("ArgumentList{40}").put("negate_l", new GrammarRule("ArgumentList{40}", false, true, graph));
-
-      graph = new GrammarState[2];
-      graph[0] = new GrammarState("Assignment", 2);
-      graph[1] = new GrammarState("ArgumentList{42}", 2);
-      table.get("ArgumentList{40}").put("string", new GrammarRule("ArgumentList{40}", false, true, graph));
-
-      graph = new GrammarState[2];
-      graph[0] = new GrammarState("Assignment", 2);
-      graph[1] = new GrammarState("ArgumentList{42}", 2);
-      table.get("ArgumentList{40}").put("number", new GrammarRule("ArgumentList{40}", false, true, graph));
-
-      graph = new GrammarState[2];
-      graph[0] = new GrammarState("Assignment", 2);
-      graph[1] = new GrammarState("ArgumentList{42}", 2);
-      table.get("ArgumentList{40}").put("boolean", new GrammarRule("ArgumentList{40}", false, true, graph));
 
     table.put("Logical{21}", new HashMap<String, GrammarRule>());
       graph = new GrammarState[1];
@@ -668,6 +665,35 @@ public class CMMParser {
       graph[1] = new GrammarState("Logical{21}", 2);
       table.get("Logical{21}").put("and", new GrammarRule("Logical{21}", false, true, graph));
 
+    table.put("ArgumentList{45}", new HashMap<String, GrammarRule>());
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("ArgumentList{42}", 2);
+      table.get("ArgumentList{45}").put("id", new GrammarRule("ArgumentList{45}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("ArgumentList{45}").put("rparen", new GrammarRule("ArgumentList{45}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("ArgumentList{42}", 2);
+      table.get("ArgumentList{45}").put("lparen", new GrammarRule("ArgumentList{45}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("ArgumentList{42}", 2);
+      table.get("ArgumentList{45}").put("negate_l", new GrammarRule("ArgumentList{45}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("ArgumentList{42}", 2);
+      table.get("ArgumentList{45}").put("string", new GrammarRule("ArgumentList{45}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("ArgumentList{42}", 2);
+      table.get("ArgumentList{45}").put("number", new GrammarRule("ArgumentList{45}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("ArgumentList{42}", 2);
+      table.get("ArgumentList{45}").put("boolean", new GrammarRule("ArgumentList{45}", false, true, graph));
+
     table.put("Declaration", new HashMap<String, GrammarRule>());
       graph = new GrammarState[5];
       graph[0] = new GrammarState("Type", 2);
@@ -692,6 +718,35 @@ public class CMMParser {
       graph[3] = new GrammarState("Declaration{12}", 2);
       graph[4] = new GrammarState("eol", 1);
       table.get("Declaration").put("string_t", new GrammarRule("Declaration", false, false, graph));
+
+    table.put("Tenary{48}", new HashMap<String, GrammarRule>());
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Tenary{48}").put("rparen", new GrammarRule("Tenary{48}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Tenary{48}").put("or", new GrammarRule("Tenary{48}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Tenary{48}").put("listsep", new GrammarRule("Tenary{48}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("Tenary{47}", 2);
+      table.get("Tenary{48}").put("tenary_op1", new GrammarRule("Tenary{48}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Tenary{48}").put("gets", new GrammarRule("Tenary{48}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Tenary{48}").put("eol", new GrammarRule("Tenary{48}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Tenary{48}").put("and", new GrammarRule("Tenary{48}", false, true, graph));
 
     table.put("Declaration{9}", new HashMap<String, GrammarRule>());
       graph = new GrammarState[3];
@@ -732,32 +787,6 @@ public class CMMParser {
       graph[1] = new GrammarState("Term{30}", 2);
       table.get("Term").put("boolean", new GrammarRule("Term", true, false, graph));
 
-    table.put("Negatedlogical{44}", new HashMap<String, GrammarRule>());
-      graph = new GrammarState[1];
-      graph[0] = new GrammarState("\0", 3);
-      table.get("Negatedlogical{44}").put("id", new GrammarRule("Negatedlogical{44}", false, true, graph));
-
-      graph = new GrammarState[1];
-      graph[0] = new GrammarState("\0", 3);
-      table.get("Negatedlogical{44}").put("lparen", new GrammarRule("Negatedlogical{44}", false, true, graph));
-
-      graph = new GrammarState[2];
-      graph[0] = new GrammarState("negate_l", 1);
-      graph[1] = new GrammarState("Negatedlogical{44}", 2);
-      table.get("Negatedlogical{44}").put("negate_l", new GrammarRule("Negatedlogical{44}", false, true, graph));
-
-      graph = new GrammarState[1];
-      graph[0] = new GrammarState("\0", 3);
-      table.get("Negatedlogical{44}").put("string", new GrammarRule("Negatedlogical{44}", false, true, graph));
-
-      graph = new GrammarState[1];
-      graph[0] = new GrammarState("\0", 3);
-      table.get("Negatedlogical{44}").put("boolean", new GrammarRule("Negatedlogical{44}", false, true, graph));
-
-      graph = new GrammarState[1];
-      graph[0] = new GrammarState("\0", 3);
-      table.get("Negatedlogical{44}").put("number", new GrammarRule("Negatedlogical{44}", false, true, graph));
-
     table.put("Declaration{11}", new HashMap<String, GrammarRule>());
       graph = new GrammarState[1];
       graph[0] = new GrammarState("\0", 3);
@@ -796,6 +825,10 @@ public class CMMParser {
       graph = new GrammarState[1];
       graph[0] = new GrammarState("String{39}", 2);
       table.get("String{35}").put("null", new GrammarRule("String{35}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("String{39}", 2);
+      table.get("String{35}").put("oindex", new GrammarRule("String{35}", false, true, graph));
 
       graph = new GrammarState[1];
       graph[0] = new GrammarState("String{39}", 2);
@@ -855,11 +888,11 @@ public class CMMParser {
 
       graph = new GrammarState[1];
       graph[0] = new GrammarState("String{39}", 2);
-      table.get("String{35}").put("divide", new GrammarRule("String{35}", false, true, graph));
+      table.get("String{35}").put("number", new GrammarRule("String{35}", false, true, graph));
 
       graph = new GrammarState[1];
       graph[0] = new GrammarState("String{39}", 2);
-      table.get("String{35}").put("number", new GrammarRule("String{35}", false, true, graph));
+      table.get("String{35}").put("divide", new GrammarRule("String{35}", false, true, graph));
 
       graph = new GrammarState[1];
       graph[0] = new GrammarState("String{39}", 2);
@@ -935,30 +968,40 @@ public class CMMParser {
       graph[0] = new GrammarState("\0", 3);
       table.get("Declaration{8}").put("eol", new GrammarRule("Declaration{8}", false, true, graph));
 
+    table.put("ArgumentList{44}", new HashMap<String, GrammarRule>());
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("ArgumentList{44}").put("rparen", new GrammarRule("ArgumentList{44}", false, true, graph));
+
+      graph = new GrammarState[2];
+      graph[0] = new GrammarState("ArgumentList{43}", 2);
+      graph[1] = new GrammarState("ArgumentList{44}", 2);
+      table.get("ArgumentList{44}").put("listsep", new GrammarRule("ArgumentList{44}", false, true, graph));
+
     table.put("Tenary", new HashMap<String, GrammarRule>());
       graph = new GrammarState[2];
       graph[0] = new GrammarState("Comparison", 2);
-      graph[1] = new GrammarState("Tenary{46}", 2);
+      graph[1] = new GrammarState("Tenary{48}", 2);
       table.get("Tenary").put("id", new GrammarRule("Tenary", true, false, graph));
 
       graph = new GrammarState[2];
       graph[0] = new GrammarState("Comparison", 2);
-      graph[1] = new GrammarState("Tenary{46}", 2);
+      graph[1] = new GrammarState("Tenary{48}", 2);
       table.get("Tenary").put("lparen", new GrammarRule("Tenary", true, false, graph));
 
       graph = new GrammarState[2];
       graph[0] = new GrammarState("Comparison", 2);
-      graph[1] = new GrammarState("Tenary{46}", 2);
+      graph[1] = new GrammarState("Tenary{48}", 2);
       table.get("Tenary").put("string", new GrammarRule("Tenary", true, false, graph));
 
       graph = new GrammarState[2];
       graph[0] = new GrammarState("Comparison", 2);
-      graph[1] = new GrammarState("Tenary{46}", 2);
+      graph[1] = new GrammarState("Tenary{48}", 2);
       table.get("Tenary").put("number", new GrammarRule("Tenary", true, false, graph));
 
       graph = new GrammarState[2];
       graph[0] = new GrammarState("Comparison", 2);
-      graph[1] = new GrammarState("Tenary{46}", 2);
+      graph[1] = new GrammarState("Tenary{48}", 2);
       table.get("Tenary").put("boolean", new GrammarRule("Tenary", true, false, graph));
 
     table.put("Type", new HashMap<String, GrammarRule>());
@@ -1135,14 +1178,6 @@ public class CMMParser {
       graph[0] = new GrammarState("\0", 3);
       table.get("Sum{27}").put("eq", new GrammarRule("Sum{27}", false, true, graph));
 
-    table.put("Tenary{45}", new HashMap<String, GrammarRule>());
-      graph = new GrammarState[4];
-      graph[0] = new GrammarState("tenary_op1", 1);
-      graph[1] = new GrammarState("Comparison", 2);
-      graph[2] = new GrammarState("tenary_op2", 1);
-      graph[3] = new GrammarState("Comparison", 2);
-      table.get("Tenary{45}").put("tenary_op1", new GrammarRule("Tenary{45}", false, true, graph));
-
     table.put("Program{1}", new HashMap<String, GrammarRule>());
       graph = new GrammarState[1];
       graph[0] = new GrammarState("\0", 3);
@@ -1166,6 +1201,95 @@ public class CMMParser {
       graph[0] = new GrammarState("FunctionDefinition", 2);
       graph[1] = new GrammarState("Program{1}", 2);
       table.get("Program{1}").put("string_t", new GrammarRule("Program{1}", false, true, graph));
+
+    table.put("Subscript{41}", new HashMap<String, GrammarRule>());
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Subscript{41}").put("null", new GrammarRule("Subscript{41}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("Subscript{40}", 2);
+      table.get("Subscript{41}").put("oindex", new GrammarRule("Subscript{41}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Subscript{41}").put("plus", new GrammarRule("Subscript{41}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Subscript{41}").put("minus", new GrammarRule("Subscript{41}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Subscript{41}").put("listsep", new GrammarRule("Subscript{41}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Subscript{41}").put("or", new GrammarRule("Subscript{41}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Subscript{41}").put("mod", new GrammarRule("Subscript{41}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Subscript{41}").put("gets", new GrammarRule("Subscript{41}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Subscript{41}").put("divide", new GrammarRule("Subscript{41}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Subscript{41}").put("multiply", new GrammarRule("Subscript{41}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Subscript{41}").put("ge", new GrammarRule("Subscript{41}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Subscript{41}").put("lt", new GrammarRule("Subscript{41}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Subscript{41}").put("and", new GrammarRule("Subscript{41}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Subscript{41}").put("exp", new GrammarRule("Subscript{41}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Subscript{41}").put("rparen", new GrammarRule("Subscript{41}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Subscript{41}").put("le", new GrammarRule("Subscript{41}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Subscript{41}").put("tenary_op1", new GrammarRule("Subscript{41}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Subscript{41}").put("ne", new GrammarRule("Subscript{41}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Subscript{41}").put("tenary_op2", new GrammarRule("Subscript{41}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Subscript{41}").put("eol", new GrammarRule("Subscript{41}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Subscript{41}").put("gt", new GrammarRule("Subscript{41}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Subscript{41}").put("eq", new GrammarRule("Subscript{41}", false, true, graph));
 
     table.put("IfStatement{13}", new HashMap<String, GrammarRule>());
       graph = new GrammarState[3];
@@ -1409,6 +1533,10 @@ public class CMMParser {
 
       graph = new GrammarState[1];
       graph[0] = new GrammarState("\0", 3);
+      table.get("String{39}").put("oindex", new GrammarRule("String{39}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
       table.get("String{39}").put("ge", new GrammarRule("String{39}", false, true, graph));
 
       graph = new GrammarState[1];
@@ -1465,14 +1593,14 @@ public class CMMParser {
       graph[0] = new GrammarState("\0", 3);
       table.get("String{39}").put("mod", new GrammarRule("String{39}", false, true, graph));
 
-      graph = new GrammarState[1];
-      graph[0] = new GrammarState("\0", 3);
-      table.get("String{39}").put("divide", new GrammarRule("String{39}", false, true, graph));
-
       graph = new GrammarState[2];
       graph[0] = new GrammarState("String{36}", 2);
       graph[1] = new GrammarState("String{39}", 2);
       table.get("String{39}").put("number", new GrammarRule("String{39}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("String{39}").put("divide", new GrammarRule("String{39}", false, true, graph));
 
       graph = new GrammarState[1];
       graph[0] = new GrammarState("\0", 3);
@@ -1770,33 +1898,10 @@ public class CMMParser {
       table.get("Declaration{7}").put("gets", new GrammarRule("Declaration{7}", false, true, graph));
 
     table.put("ArgumentList{43}", new HashMap<String, GrammarRule>());
-      graph = new GrammarState[1];
-      graph[0] = new GrammarState("ArgumentList{40}", 2);
-      table.get("ArgumentList{43}").put("id", new GrammarRule("ArgumentList{43}", false, true, graph));
-
-      graph = new GrammarState[1];
-      graph[0] = new GrammarState("\0", 3);
-      table.get("ArgumentList{43}").put("rparen", new GrammarRule("ArgumentList{43}", false, true, graph));
-
-      graph = new GrammarState[1];
-      graph[0] = new GrammarState("ArgumentList{40}", 2);
-      table.get("ArgumentList{43}").put("lparen", new GrammarRule("ArgumentList{43}", false, true, graph));
-
-      graph = new GrammarState[1];
-      graph[0] = new GrammarState("ArgumentList{40}", 2);
-      table.get("ArgumentList{43}").put("negate_l", new GrammarRule("ArgumentList{43}", false, true, graph));
-
-      graph = new GrammarState[1];
-      graph[0] = new GrammarState("ArgumentList{40}", 2);
-      table.get("ArgumentList{43}").put("string", new GrammarRule("ArgumentList{43}", false, true, graph));
-
-      graph = new GrammarState[1];
-      graph[0] = new GrammarState("ArgumentList{40}", 2);
-      table.get("ArgumentList{43}").put("number", new GrammarRule("ArgumentList{43}", false, true, graph));
-
-      graph = new GrammarState[1];
-      graph[0] = new GrammarState("ArgumentList{40}", 2);
-      table.get("ArgumentList{43}").put("boolean", new GrammarRule("ArgumentList{43}", false, true, graph));
+      graph = new GrammarState[2];
+      graph[0] = new GrammarState("listsep", 1);
+      graph[1] = new GrammarState("Assignment", 2);
+      table.get("ArgumentList{43}").put("listsep", new GrammarRule("ArgumentList{43}", false, true, graph));
 
     table.put("Logical", new HashMap<String, GrammarRule>());
       graph = new GrammarState[2];
@@ -1823,6 +1928,27 @@ public class CMMParser {
       graph[0] = new GrammarState("Tenary", 2);
       graph[1] = new GrammarState("Logical{21}", 2);
       table.get("Logical").put("boolean", new GrammarRule("Logical", true, false, graph));
+
+    table.put("Subscript", new HashMap<String, GrammarRule>());
+      graph = new GrammarState[2];
+      graph[0] = new GrammarState("String", 2);
+      graph[1] = new GrammarState("Subscript{41}", 2);
+      table.get("Subscript").put("id", new GrammarRule("Subscript", true, false, graph));
+
+      graph = new GrammarState[2];
+      graph[0] = new GrammarState("String", 2);
+      graph[1] = new GrammarState("Subscript{41}", 2);
+      table.get("Subscript").put("string", new GrammarRule("Subscript", true, false, graph));
+
+      graph = new GrammarState[2];
+      graph[0] = new GrammarState("String", 2);
+      graph[1] = new GrammarState("Subscript{41}", 2);
+      table.get("Subscript").put("number", new GrammarRule("Subscript", true, false, graph));
+
+      graph = new GrammarState[2];
+      graph[0] = new GrammarState("String", 2);
+      graph[1] = new GrammarState("Subscript{41}", 2);
+      table.get("Subscript").put("boolean", new GrammarRule("Subscript", true, false, graph));
 
     table.put("String{37}", new HashMap<String, GrammarRule>());
       graph = new GrammarState[1];
@@ -1924,40 +2050,44 @@ public class CMMParser {
       graph[0] = new GrammarState("ParameterList{2}", 2);
       table.get("ParameterList{5}").put("string_t", new GrammarRule("ParameterList{5}", false, true, graph));
 
-    table.put("Tenary{46}", new HashMap<String, GrammarRule>());
-      graph = new GrammarState[1];
-      graph[0] = new GrammarState("\0", 3);
-      table.get("Tenary{46}").put("rparen", new GrammarRule("Tenary{46}", false, true, graph));
-
-      graph = new GrammarState[1];
-      graph[0] = new GrammarState("\0", 3);
-      table.get("Tenary{46}").put("or", new GrammarRule("Tenary{46}", false, true, graph));
-
-      graph = new GrammarState[1];
-      graph[0] = new GrammarState("\0", 3);
-      table.get("Tenary{46}").put("listsep", new GrammarRule("Tenary{46}", false, true, graph));
-
-      graph = new GrammarState[1];
-      graph[0] = new GrammarState("Tenary{45}", 2);
-      table.get("Tenary{46}").put("tenary_op1", new GrammarRule("Tenary{46}", false, true, graph));
-
-      graph = new GrammarState[1];
-      graph[0] = new GrammarState("\0", 3);
-      table.get("Tenary{46}").put("gets", new GrammarRule("Tenary{46}", false, true, graph));
-
-      graph = new GrammarState[1];
-      graph[0] = new GrammarState("\0", 3);
-      table.get("Tenary{46}").put("eol", new GrammarRule("Tenary{46}", false, true, graph));
-
-      graph = new GrammarState[1];
-      graph[0] = new GrammarState("\0", 3);
-      table.get("Tenary{46}").put("and", new GrammarRule("Tenary{46}", false, true, graph));
-
     table.put("Assignment{17}", new HashMap<String, GrammarRule>());
       graph = new GrammarState[2];
       graph[0] = new GrammarState("gets", 1);
       graph[1] = new GrammarState("Negatedlogical", 2);
       table.get("Assignment{17}").put("gets", new GrammarRule("Assignment{17}", false, true, graph));
+
+    table.put("Subscript{40}", new HashMap<String, GrammarRule>());
+      graph = new GrammarState[3];
+      graph[0] = new GrammarState("oindex", 1);
+      graph[1] = new GrammarState("number", 1);
+      graph[2] = new GrammarState("cindex", 1);
+      table.get("Subscript{40}").put("oindex", new GrammarRule("Subscript{40}", false, true, graph));
+
+    table.put("Negatedlogical{46}", new HashMap<String, GrammarRule>());
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Negatedlogical{46}").put("id", new GrammarRule("Negatedlogical{46}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Negatedlogical{46}").put("lparen", new GrammarRule("Negatedlogical{46}", false, true, graph));
+
+      graph = new GrammarState[2];
+      graph[0] = new GrammarState("negate_l", 1);
+      graph[1] = new GrammarState("Negatedlogical{46}", 2);
+      table.get("Negatedlogical{46}").put("negate_l", new GrammarRule("Negatedlogical{46}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Negatedlogical{46}").put("string", new GrammarRule("Negatedlogical{46}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Negatedlogical{46}").put("boolean", new GrammarRule("Negatedlogical{46}", false, true, graph));
+
+      graph = new GrammarState[1];
+      graph[0] = new GrammarState("\0", 3);
+      table.get("Negatedlogical{46}").put("number", new GrammarRule("Negatedlogical{46}", false, true, graph));
 
     table.put("Exp{31}", new HashMap<String, GrammarRule>());
       graph = new GrammarState[2];
@@ -2011,16 +2141,9 @@ public class CMMParser {
       graph[2] = new GrammarState("rparen", 1);
       table.get("ParameterList").put("lparen", new GrammarRule("ParameterList", false, false, graph));
 
-    table.put("ArgumentList", new HashMap<String, GrammarRule>());
-      graph = new GrammarState[3];
-      graph[0] = new GrammarState("lparen", 1);
-      graph[1] = new GrammarState("ArgumentList{43}", 2);
-      graph[2] = new GrammarState("rparen", 1);
-      table.get("ArgumentList").put("lparen", new GrammarRule("ArgumentList", false, false, graph));
-
     table.put("Element", new HashMap<String, GrammarRule>());
       graph = new GrammarState[1];
-      graph[0] = new GrammarState("String", 2);
+      graph[0] = new GrammarState("Subscript", 2);
       table.get("Element").put("id", new GrammarRule("Element", false, false, graph));
 
       graph = new GrammarState[3];
@@ -2030,16 +2153,23 @@ public class CMMParser {
       table.get("Element").put("lparen", new GrammarRule("Element", false, false, graph));
 
       graph = new GrammarState[1];
-      graph[0] = new GrammarState("String", 2);
+      graph[0] = new GrammarState("Subscript", 2);
       table.get("Element").put("string", new GrammarRule("Element", false, false, graph));
 
       graph = new GrammarState[1];
-      graph[0] = new GrammarState("String", 2);
+      graph[0] = new GrammarState("Subscript", 2);
       table.get("Element").put("number", new GrammarRule("Element", false, false, graph));
 
       graph = new GrammarState[1];
-      graph[0] = new GrammarState("String", 2);
+      graph[0] = new GrammarState("Subscript", 2);
       table.get("Element").put("boolean", new GrammarRule("Element", false, false, graph));
+
+    table.put("ArgumentList", new HashMap<String, GrammarRule>());
+      graph = new GrammarState[3];
+      graph[0] = new GrammarState("lparen", 1);
+      graph[1] = new GrammarState("ArgumentList{45}", 2);
+      graph[2] = new GrammarState("rparen", 1);
+      table.get("ArgumentList").put("lparen", new GrammarRule("ArgumentList", false, false, graph));
 
     table.put("IfStatement{15}", new HashMap<String, GrammarRule>());
       graph = new GrammarState[2];

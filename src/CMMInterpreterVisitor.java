@@ -795,6 +795,24 @@ public class CMMInterpreterVisitor implements
 			
 			
 		}
+		//                0      1      2      3
+		//Subscript -> String (oindex number cindex)?
+		public CMMData visit(CMMASTSubscriptNode node, CMMEnvironment data) {
+			if (node.numChildren() == 1) return node.getChild(0).accept(this, data);
+			
+			CMMData s = node.getChild(0).accept(this, data);
+			if (!(s instanceof CMMString)) 
+				throw new RuntimeException("Expected a string");
+			
+			String str = ((CMMString)node.getChild(0).accept(this, data)).value();
+			Double n = ((CMMNumber)node.getChild(2).accept(this, data)).value();
+			int i = n.intValue(); 
+			
+			
+			return new CMMNumber(new Integer(str.charAt(i+1)));
+			
+			
+		}
 
 	
 

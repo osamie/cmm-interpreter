@@ -33,6 +33,7 @@ Condition ->  lparen Assignment rparen
 
 SimpleStatement -> Assignment eol
 
+
 Assignment -> Negatedlogical (gets Negatedlogical)?
 
 Logical -> Tenary ((and|or) Tenary)*  [>1]
@@ -43,13 +44,15 @@ Comparison -> Sum ((lt|gt|eq|le|ge|ne) Sum)?  [>1]
 Sum -> Term ((plus|minus) Term)*  [>1]
 Term -> Exp ((multiply|divide|mod) Exp)* [>1]  
 Exp -> Element (exp Element)*  [>1] 
-Element -> String | lparen Logical rparen
+Element -> Subscript | lparen Logical rparen
 
 ElementPlus -> id ArgumentList?
 
 Constant -> string | boolean | number
 
 String -> (Constant|ElementPlus) ((concat? (Constant|ElementPlus))* )  [>1]
+
+Subscript -> String (oindex number cindex)? [>1]
  
 ConcatString -> string
 
