@@ -814,6 +814,49 @@ public class CMMInterpreterVisitor implements
 			
 		}
 
+		/**
+		 * 
+		 *             0     1         2   3       4           5     6        7      8        9      10
+		 * ForLoop -> for lparen (   (id gets Negatedlogical) eol Comparison eol Assignment) rparen Block
+		 * 
+		 */
+		public CMMData visit(CMMASTForLoopNode node, CMMEnvironment data) {
+			
+			
+			CMMASTNode n = node.getChild(2); //Element
+			
+			String id = n.getValue();
+			if (env.lookup(id) == null)
+				throw new RuntimeException("Assigning to undeclared variable " + id);
+			CMMData res = node.getChild(4).accept(this, data);
+			if (res.getClass() != env.lookup(id).getClass()) 
+				throw new RuntimeException("Type mismatch on assignment " 
+						+ res.getClass() + " vs. " + env.lookup(id).getClass());
+			env.assign(id, res);
+			
+			CMMData cond = node.getChild(6).accept(this, data);
+			if (!(cond instanceof CMMBoolean))
+				throw new RuntimeException("Expected a logical evaluation");
+			
+			Boolean c = ((CMMBoolean)cond).value();
+			CMMData blk = null;// = node.getChild(10).accept(this, data);
+			CMMData incr;
+			
+			while( ((CMMBoolean)node.getChild(6).accept(this, data)).value()) //would I need to keep accepting(checking) comparison here???
+			{
+				if (!((CMMBoolean)node.getChild(6).accept(this, data)).value())
+				{
+					break;
+				}
+				
+				blk = node.getChild(10).accept(this, data); //process block
+				incr = node.getChild(8).accept(this, data); //do increments or decrements
+				
+			}
+			return blk;
+			
+		}
+
 	
 
 	

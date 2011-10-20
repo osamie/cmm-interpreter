@@ -34,6 +34,8 @@ cindex: \]
 # list separator
 listsep: ,
 
+
+
 # logical operators
 and: &
 or: \|
@@ -68,6 +70,7 @@ return: return
 number_t: number
 string_t: string
 boolean_t: boolean
+for: for
 
 #concat operator
 

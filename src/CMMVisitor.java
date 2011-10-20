@@ -8,6 +8,7 @@ public interface CMMVisitor<X,Y> {
   public X visit(CMMASTSubscriptNode node, Y data);
   public X visit(CMMASTFunctionDefinitionNode node, Y data);
   public X visit(CMMASTNegatedlogicalNode node, Y data);
+  public X visit(CMMASTForLoopNode node, Y data);
   public X visit(CMMASTWhileLoopNode node, Y data);
   public X visit(CMMASTBlockNode node, Y data);
   public X visit(CMMASTStringNode node, Y data);

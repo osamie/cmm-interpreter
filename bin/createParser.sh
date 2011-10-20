@@ -5,7 +5,7 @@ javac -d ../bin/ *.java
 
 cd ../bin 
 
-java CMM simple.cmm
+#if ($1 -eq 1) { java CMM simple.cmm; }
 
 #java CMMASTTdd
 
@@ -13,6 +13,3 @@ cd ../src
 
 
 #java ../bin/CMM.class ../bin/simple.cmm 
-
-
-

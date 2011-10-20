@@ -10,7 +10,7 @@ Block -> bb ExpressionList be
 
 ExpressionList -> Statement*
 
-Statement -> Declaration | WhileLoop | DoLoop | IfStatement | SimpleStatement
+Statement -> Declaration | WhileLoop | DoLoop | IfStatement | SimpleStatement | ForLoop
 
 #Declaration -> Type id (listsep id)* eol
 
@@ -24,6 +24,8 @@ Type -> number_t | string_t | boolean_t
 WhileLoop -> while Condition Block
 
 DoLoop -> do Block while Condition eol
+
+ForLoop -> for lparen ((id gets Negatedlogical) eol Comparison eol Assignment) rparen Block
 
 IfStatement -> if Condition Block (elsif Condition Block)* (else Block)?
 

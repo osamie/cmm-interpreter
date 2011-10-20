@@ -5,9 +5,11 @@ javac -d ../bin/ *.java
 
 cd ../bin 
 
+if [$1 -eq 1] then
 java CMM simple.cmm
-
+fi
 #java CMMASTTdd
+
 
 cd ../src
 
