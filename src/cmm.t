@@ -34,7 +34,7 @@ cindex: \]
 # list separator
 listsep: ,
 
-
+prints: [$]
 
 # logical operators
 and: &
@@ -72,8 +72,7 @@ string_t: string
 boolean_t: boolean
 for: for
 
-#concat operator
-
+#concatenation operator
 concat: \.
 
 # string constants

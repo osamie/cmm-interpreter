@@ -38,8 +38,28 @@ public class CMMInterpreterVisitor implements
 		return null;
 	}
 
+ // Element -> prints? (Subscript | lparen Logical rparen)
 	public CMMData visit(CMMASTElementNode node, CMMEnvironment data) {
-		if(node.getChild(0).getName().equals("negate_l") && node.getChild(1).getName().equals("Constant"))
+		if(node.getChild(0).getName().equals("prints"))
+		{
+			//CMMData res = visitChildren(node.getChild(1), data);
+			//System.out.println(res);
+			
+			CMMData last = null;
+			for (int i = 1; i < node.numChildren(); i++) {
+				CMMData tmp = node.getChild(i).accept(this, data);
+				if (tmp != null) {
+					last = tmp;
+					System.out.println(tmp);
+				}
+				
+			}
+			return last;
+			
+		}
+		
+		
+		/**if(node.getChild(0).getName().equals("negate_l") && node.getChild(1).getName().equals("Constant"))
 			{
 			//throw new RuntimeException ("cannot use the NOT operator on a non boolean value"+node.getChild(1).getName());
 				
@@ -48,7 +68,7 @@ public class CMMInterpreterVisitor implements
 					return cond;//throw new RuntimeException ("cannot use the NOT operator on a non boolean value");
 				CMMBoolean cd = (CMMBoolean) cond;
 				return new CMMBoolean(!cd.value());
-			}
+			}**/
 			
 		return visitChildren(node, data);
 	}
@@ -58,10 +78,16 @@ public class CMMInterpreterVisitor implements
 		return visitChildren(node, data);
 	}
     
-	//SimpleStatement -> negate_l* Assignment eol
+	//SimpleStatement -> prints* Assignment eol
 	public CMMData visit(CMMASTSimpleStatementNode node, CMMEnvironment data) {
 		
-		if (node.getChild(0).getName().equals("negate_l")) throw new RuntimeException("found a negate assingment");
+		/**for (int i = 0; i < (node.numChildren()-1); i++)
+		{
+			//ret = !ret;
+		}**/
+		
+		
+		//if (node.getChild(0).getName().equals("negate_l")) throw new RuntimeException("found a negate assingment");
 		return visitChildren(node, data);
 	}
      
@@ -86,6 +112,7 @@ public class CMMInterpreterVisitor implements
 	public CMMData visit(CMMASTAssignmentNode node, CMMEnvironment data) {
 		
 		//getChild(0).getName().equals("negate_l")
+		if (node.getChild(0).getName().equals("prints")) throw new RuntimeException("found a print!");
 		
 		//if (node.getChild(1).getName().equals("Negatedlogical")) throw new RuntimeException("found a bla");
 		if (node.numChildren() > 1) {
@@ -256,8 +283,26 @@ public class CMMInterpreterVisitor implements
 			return node.getChild(0).accept(this, data); 
 		} 
 		
+		/**
+		 * $3
+		 * $("youu")
+		 * 
+		 * string x="blah"
+		 * $x
+		 * 
+		 * if child[0] == $
+		 * CMMData res = visitChildren(node.getChild(1), data);
+				System.out.println(res + "\n");
+				return res;
+		 *  
+		 * 
+		 */
+		
+		
+		
 		if(node.getChild(1).getName().equals("String")) 
 			throw new RuntimeException("Found a string");
+		
 		else { // a function call
 			String fname = node.getChild(0).getValue();
 			if (fname.equals("print")) {
@@ -676,7 +721,15 @@ public class CMMInterpreterVisitor implements
 		public CMMData visit(CMMASTNegatedlogicalNode node, CMMEnvironment data) {
 			if (node.numChildren() == 1) return node.getChild(0).accept(this, data);
 			
-			
+			if(node.getChild(0).getName().equals("prints"))
+			{
+				throw new RuntimeException("Found an inner print");
+				/**
+				CMMData res = visitChildren(node.getChild(1), data);
+				System.out.println(res + "\n");
+				return null;
+				**/
+			}
 			
 			CMMData l = node.getChild(node.numChildren()-1).accept(this, data);
 			

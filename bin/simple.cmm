@@ -38,9 +38,10 @@ println("an ELSE");
 number main() {
   //x = 5 + 7;
   //ifState();
+$($5 + $3);
 number i;
 for(i=0;i<1;i=2){
-print("hello");
+//print("hello");
 }
   //count(10);
   //number x; 

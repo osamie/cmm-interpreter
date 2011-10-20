@@ -3,15 +3,15 @@
 java -cp SiCC.jar SiCC --prefix CMM cmm.t cmm.g
 javac -d ../bin/ *.java
 
-cd ../bin 
+#cd ../bin 
 
-if [$1 -eq 1] then
-java CMM simple.cmm
-fi
+#if [$1 -eq 1] then
+#java CMM simple.cmm
+#fi
 #java CMMASTTdd
 
 
-cd ../src
+#cd ../src
 
 
 #java ../bin/CMM.class ../bin/simple.cmm 

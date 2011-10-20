@@ -41,12 +41,13 @@ public class CMMTokenizer implements CMMiTokenizer {
   public static final int EQ_TOKEN = 33; // ==
   public static final int OINDEX_TOKEN = 34; // \[
   public static final int RETURN_TOKEN = 35; // return
-  public static final int EOL_TOKEN = 36; // ;
-  public static final int BE_TOKEN = 37; // }
-  public static final int EXP_TOKEN = 38; // \^
-  public static final int NUMBER_TOKEN = 39; // -? (:float: | :float: [eE] [-\+]? :integer:?) | :integer:+r(:letter:|:digit:)+
-  public static final int BB_TOKEN = 40; // {
-  public static final int BOOLEAN_TOKEN = 41; // true | false
+  public static final int PRINTS_TOKEN = 36; // [$]
+  public static final int EOL_TOKEN = 37; // ;
+  public static final int BE_TOKEN = 38; // }
+  public static final int EXP_TOKEN = 39; // \^
+  public static final int NUMBER_TOKEN = 40; // -? (:float: | :float: [eE] [-\+]? :integer:?) | :integer:+r(:letter:|:digit:)+
+  public static final int BB_TOKEN = 41; // {
+  public static final int BOOLEAN_TOKEN = 42; // true | false
   public static final int EOF_TOKEN = -1;
 
   private static final char wildcard = 3;
@@ -207,6 +208,7 @@ public class CMMTokenizer implements CMMiTokenizer {
     if ( name.equals("eq") ) return new CMMToken(EQ_TOKEN, name, value, lineNumber, column);
     if ( name.equals("oindex") ) return new CMMToken(OINDEX_TOKEN, name, value, lineNumber, column);
     if ( name.equals("return") ) return new CMMToken(RETURN_TOKEN, name, value, lineNumber, column);
+    if ( name.equals("prints") ) return new CMMToken(PRINTS_TOKEN, name, value, lineNumber, column);
     if ( name.equals("eol") ) return new CMMToken(EOL_TOKEN, name, value, lineNumber, column);
     if ( name.equals("be") ) return new CMMToken(BE_TOKEN, name, value, lineNumber, column);
     if ( name.equals("exp") ) return new CMMToken(EXP_TOKEN, name, value, lineNumber, column);
@@ -326,77 +328,79 @@ public class CMMTokenizer implements CMMiTokenizer {
     buildState105();
     buildState106();
     buildState107();
+    buildState108();
 
-    accepting.put(107, "elsif");
-    accepting.put(106, "id");
-    accepting.put(105, "else");
+    accepting.put(108, "elsif");
+    accepting.put(107, "id");
+    accepting.put(106, "else");
+    accepting.put(105, "id");
     accepting.put(104, "id");
-    accepting.put(103, "id");
+    accepting.put(103, "number");
     accepting.put(102, "number");
-    accepting.put(101, "number");
-    accepting.put(99, "ge");
-    accepting.put(98, "do");
+    accepting.put(100, "ge");
+    accepting.put(99, "do");
+    accepting.put(98, "string");
     accepting.put(97, "string");
-    accepting.put(96, "string");
-    accepting.put(93, "ne");
-    accepting.put(92, "string_t");
+    accepting.put(94, "ne");
+    accepting.put(93, "string_t");
+    accepting.put(92, "id");
     accepting.put(91, "id");
     accepting.put(90, "id");
     accepting.put(89, "id");
-    accepting.put(88, "id");
-    accepting.put(87, "number_t");
+    accepting.put(88, "number_t");
+    accepting.put(87, "id");
     accepting.put(86, "id");
     accepting.put(85, "id");
     accepting.put(84, "id");
-    accepting.put(83, "id");
+    accepting.put(83, "skip");
     accepting.put(82, "skip");
-    accepting.put(81, "skip");
-    accepting.put(80, "eq");
+    accepting.put(81, "eq");
+    accepting.put(80, "number");
     accepting.put(79, "number");
-    accepting.put(78, "number");
-    accepting.put(77, "le");
-    accepting.put(76, "ne");
-    accepting.put(75, "boolean_t");
+    accepting.put(78, "le");
+    accepting.put(77, "ne");
+    accepting.put(76, "boolean_t");
+    accepting.put(75, "id");
     accepting.put(74, "id");
     accepting.put(73, "id");
     accepting.put(72, "id");
     accepting.put(71, "id");
-    accepting.put(70, "id");
-    accepting.put(69, "while");
+    accepting.put(70, "while");
+    accepting.put(69, "id");
     accepting.put(68, "id");
     accepting.put(67, "id");
-    accepting.put(66, "id");
-    accepting.put(65, "if");
-    accepting.put(64, "boolean");
+    accepting.put(66, "if");
+    accepting.put(65, "boolean");
+    accepting.put(64, "id");
     accepting.put(63, "id");
-    accepting.put(62, "id");
-    accepting.put(61, "for");
+    accepting.put(62, "for");
+    accepting.put(61, "id");
     accepting.put(60, "id");
-    accepting.put(59, "id");
-    accepting.put(58, "boolean");
+    accepting.put(59, "boolean");
+    accepting.put(58, "id");
     accepting.put(57, "id");
-    accepting.put(56, "id");
-    accepting.put(55, "return");
+    accepting.put(56, "return");
+    accepting.put(55, "id");
     accepting.put(54, "id");
     accepting.put(53, "id");
     accepting.put(52, "id");
     accepting.put(51, "id");
     accepting.put(50, "id");
-    accepting.put(49, "id");
+    accepting.put(48, "number");
     accepting.put(47, "number");
     accepting.put(46, "number");
     accepting.put(45, "number");
     accepting.put(44, "number");
     accepting.put(43, "number");
-    accepting.put(42, "number");
-    accepting.put(40, "number");
-    accepting.put(38, "number");
-    accepting.put(37, "skip");
-    accepting.put(36, "number");
-    accepting.put(35, "bb");
-    accepting.put(34, "exp");
-    accepting.put(33, "be");
-    accepting.put(32, "eol");
+    accepting.put(41, "number");
+    accepting.put(39, "number");
+    accepting.put(38, "skip");
+    accepting.put(37, "number");
+    accepting.put(36, "bb");
+    accepting.put(35, "exp");
+    accepting.put(34, "be");
+    accepting.put(33, "eol");
+    accepting.put(32, "prints");
     accepting.put(31, "oindex");
     accepting.put(30, "and");
     accepting.put(29, "tenary_op1");
@@ -430,8 +434,8 @@ public class CMMTokenizer implements CMMiTokenizer {
   } // end buildDFA
 
   private void buildState0() {
-    char[] tc = {125,124,123,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,94,93,91,90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,63,62,61,60,59,58,57,56,55,54,53,52,51,50,49,48,47,46,45,44,43,42,41,40,38,37,34,33,32,13,10,9,};
-    int[]  st = {33,17,35,22,22,22,20,22,22,24,10,25,22,22,22,11,22,22,22,22,21,22,22,23,1,7,22,19,22,22,34,27,31,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,29,5,14,16,32,28,36,36,36,36,36,36,36,36,36,36,13,15,4,6,2,12,26,18,30,3,8,9,37,37,37,37,};
+    char[] tc = {125,124,123,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,94,93,91,90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,63,62,61,60,59,58,57,56,55,54,53,52,51,50,49,48,47,46,45,44,43,42,41,40,38,37,36,34,33,32,13,10,9,};
+    int[]  st = {34,17,36,22,22,22,20,22,22,24,10,25,22,22,22,11,22,22,22,22,21,22,22,23,1,7,22,19,22,22,35,27,31,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,29,5,14,16,33,28,37,37,37,37,37,37,37,37,37,37,13,15,4,6,2,12,26,18,30,3,32,8,9,38,38,38,38,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(0, trans);
@@ -439,7 +443,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState1() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,103,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,104,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(1, trans);
@@ -463,7 +467,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState4() {
     char[] tc = {57,56,55,54,53,52,51,50,49,48,46,};
-    int[]  st = {101,101,101,101,101,101,101,101,101,101,100,};
+    int[]  st = {102,102,102,102,102,102,102,102,102,102,101,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(4, trans);
@@ -471,7 +475,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState5() {
     char[] tc = {61,};
-    int[]  st = {99,};
+    int[]  st = {100,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(5, trans);
@@ -487,7 +491,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState7() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,98,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,99,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(7, trans);
@@ -495,7 +499,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState8() {
     char[] tc = {255,254,253,252,251,250,249,248,247,246,245,244,243,242,241,240,239,238,237,236,235,234,233,232,231,230,229,228,227,226,225,224,223,222,221,220,219,218,217,216,215,214,213,212,211,210,209,208,207,206,205,204,203,202,201,200,199,198,197,196,195,194,193,192,191,190,189,188,187,186,185,184,183,182,181,180,179,178,177,176,175,174,173,172,171,170,169,168,167,166,165,164,163,162,161,160,159,158,157,156,155,154,153,152,151,150,149,148,147,146,145,144,143,142,141,140,139,138,137,136,135,134,133,132,131,130,129,128,127,126,125,124,123,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,96,95,94,93,92,91,90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,64,63,62,61,60,59,58,57,56,55,54,53,52,51,50,49,48,47,46,45,44,43,42,41,40,39,38,37,36,35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,};
-    int[]  st = {94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,95,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,96,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,};
+    int[]  st = {95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,96,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,97,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(8, trans);
@@ -503,7 +507,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState9() {
     char[] tc = {61,};
-    int[]  st = {93,};
+    int[]  st = {94,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(9, trans);
@@ -511,7 +515,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState10() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,88,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,89,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(10, trans);
@@ -519,7 +523,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState11() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,83,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,84,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(11, trans);
@@ -535,7 +539,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState13() {
     char[] tc = {47,};
-    int[]  st = {81,};
+    int[]  st = {82,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(13, trans);
@@ -543,7 +547,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState14() {
     char[] tc = {61,};
-    int[]  st = {80,};
+    int[]  st = {81,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(14, trans);
@@ -551,7 +555,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState15() {
     char[] tc = {57,56,55,54,53,52,51,50,49,48,};
-    int[]  st = {78,78,78,78,78,78,78,78,78,78,};
+    int[]  st = {79,79,79,79,79,79,79,79,79,79,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(15, trans);
@@ -559,7 +563,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState16() {
     char[] tc = {62,61,};
-    int[]  st = {76,77,};
+    int[]  st = {77,78,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(16, trans);
@@ -583,7 +587,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState19() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,70,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,71,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(19, trans);
@@ -591,7 +595,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState20() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,66,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,67,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(20, trans);
@@ -599,7 +603,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState21() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,65,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,66,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(21, trans);
@@ -607,7 +611,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState22() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(22, trans);
@@ -615,7 +619,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState23() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,60,51,51,51,51,51,51,51,51,51,51,51,51,51,59,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,61,52,52,52,52,52,52,52,52,52,52,52,52,52,60,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(23, trans);
@@ -623,7 +627,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState24() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,56,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,57,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(24, trans);
@@ -631,7 +635,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState25() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,49,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,50,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(25, trans);
@@ -718,48 +722,48 @@ public class CMMTokenizer implements CMMiTokenizer {
   } // end buildState35
 
   private void buildState36() {
-    char[] tc = {114,57,56,101,55,54,53,52,51,50,49,48,69,46,};
-    int[]  st = {41,38,38,40,38,38,38,38,38,38,38,38,40,39,};
+    char[] tc = {};
+    int[]  st = {};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(36, trans);
   } // end buildState36
 
   private void buildState37() {
-    char[] tc = {};
-    int[]  st = {};
+    char[] tc = {114,57,56,101,55,54,53,52,51,50,49,48,69,46,};
+    int[]  st = {42,39,39,41,39,39,39,39,39,39,39,39,41,40,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(37, trans);
   } // end buildState37
 
   private void buildState38() {
-    char[] tc = {114,57,56,101,55,54,53,52,51,50,49,48,69,46,};
-    int[]  st = {41,36,36,40,36,36,36,36,36,36,36,36,40,48,};
+    char[] tc = {};
+    int[]  st = {};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(38, trans);
   } // end buildState38
 
   private void buildState39() {
-    char[] tc = {57,56,55,54,53,52,51,50,49,48,};
-    int[]  st = {46,46,46,46,46,46,46,46,46,46,};
+    char[] tc = {114,57,56,101,55,54,53,52,51,50,49,48,69,46,};
+    int[]  st = {42,37,37,41,37,37,37,37,37,37,37,37,41,49,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(39, trans);
   } // end buildState39
 
   private void buildState40() {
-    char[] tc = {45,43,57,56,55,54,53,52,51,50,49,48,};
-    int[]  st = {44,44,45,45,45,45,45,45,45,45,45,45,};
+    char[] tc = {57,56,55,54,53,52,51,50,49,48,};
+    int[]  st = {47,47,47,47,47,47,47,47,47,47,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(40, trans);
   } // end buildState40
 
   private void buildState41() {
-    char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,43,43,43,43,43,43,43,43,43,43,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,};
+    char[] tc = {45,43,57,56,55,54,53,52,51,50,49,48,};
+    int[]  st = {45,45,46,46,46,46,46,46,46,46,46,46,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(41, trans);
@@ -767,7 +771,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState42() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,43,43,43,43,43,43,43,43,43,43,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,};
+    int[]  st = {43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,44,44,44,44,44,44,44,44,44,44,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(42, trans);
@@ -775,15 +779,15 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState43() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,43,43,43,43,43,43,43,43,43,43,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,};
+    int[]  st = {43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,44,44,44,44,44,44,44,44,44,44,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(43, trans);
   } // end buildState43
 
   private void buildState44() {
-    char[] tc = {57,56,55,54,53,52,51,50,49,48,};
-    int[]  st = {45,45,45,45,45,45,45,45,45,45,};
+    char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
+    int[]  st = {43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,44,44,44,44,44,44,44,44,44,44,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(44, trans);
@@ -791,15 +795,15 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState45() {
     char[] tc = {57,56,55,54,53,52,51,50,49,48,};
-    int[]  st = {45,45,45,45,45,45,45,45,45,45,};
+    int[]  st = {46,46,46,46,46,46,46,46,46,46,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(45, trans);
   } // end buildState45
 
   private void buildState46() {
-    char[] tc = {57,56,101,55,54,53,52,51,50,49,48,69,};
-    int[]  st = {47,47,40,47,47,47,47,47,47,47,47,40,};
+    char[] tc = {57,56,55,54,53,52,51,50,49,48,};
+    int[]  st = {46,46,46,46,46,46,46,46,46,46,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(46, trans);
@@ -807,23 +811,23 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState47() {
     char[] tc = {57,56,101,55,54,53,52,51,50,49,48,69,};
-    int[]  st = {46,46,40,46,46,46,46,46,46,46,46,40,};
+    int[]  st = {48,48,41,48,48,48,48,48,48,48,48,41,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(47, trans);
   } // end buildState47
 
   private void buildState48() {
-    char[] tc = {57,56,55,54,53,52,51,50,49,48,};
-    int[]  st = {47,47,47,47,47,47,47,47,47,47,};
+    char[] tc = {57,56,101,55,54,53,52,51,50,49,48,69,};
+    int[]  st = {47,47,41,47,47,47,47,47,47,47,47,41,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(48, trans);
   } // end buildState48
 
   private void buildState49() {
-    char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,52,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    char[] tc = {57,56,55,54,53,52,51,50,49,48,};
+    int[]  st = {48,48,48,48,48,48,48,48,48,48,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(49, trans);
@@ -831,7 +835,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState50() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,53,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(50, trans);
@@ -839,7 +843,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState51() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(51, trans);
@@ -847,7 +851,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState52() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,53,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(52, trans);
@@ -855,7 +859,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState53() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,54,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,54,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(53, trans);
@@ -863,7 +867,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState54() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,55,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,55,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(54, trans);
@@ -871,7 +875,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState55() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,56,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(55, trans);
@@ -879,7 +883,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState56() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,57,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(56, trans);
@@ -887,7 +891,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState57() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,58,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,58,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(57, trans);
@@ -895,7 +899,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState58() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,59,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(58, trans);
@@ -903,7 +907,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState59() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,62,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(59, trans);
@@ -911,7 +915,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState60() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,61,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,63,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(60, trans);
@@ -919,7 +923,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState61() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,62,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(61, trans);
@@ -927,7 +931,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState62() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,63,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(62, trans);
@@ -935,7 +939,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState63() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,64,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,64,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(63, trans);
@@ -943,7 +947,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState64() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,65,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(64, trans);
@@ -951,7 +955,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState65() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(65, trans);
@@ -959,7 +963,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState66() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,67,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(66, trans);
@@ -967,7 +971,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState67() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,68,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,68,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(67, trans);
@@ -975,7 +979,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState68() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,69,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,69,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(68, trans);
@@ -983,7 +987,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState69() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,70,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(69, trans);
@@ -991,7 +995,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState70() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,71,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(70, trans);
@@ -999,7 +1003,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState71() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,72,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,72,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(71, trans);
@@ -1007,7 +1011,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState72() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,73,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,73,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(72, trans);
@@ -1015,7 +1019,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState73() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,74,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,74,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(73, trans);
@@ -1023,7 +1027,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState74() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,75,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,75,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(74, trans);
@@ -1031,15 +1035,15 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState75() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,76,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(75, trans);
   } // end buildState75
 
   private void buildState76() {
-    char[] tc = {};
-    int[]  st = {};
+    char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(76, trans);
@@ -1054,8 +1058,8 @@ public class CMMTokenizer implements CMMiTokenizer {
   } // end buildState77
 
   private void buildState78() {
-    char[] tc = {57,56,101,55,54,53,52,51,50,49,48,69,};
-    int[]  st = {79,79,40,79,79,79,79,79,79,79,79,40,};
+    char[] tc = {};
+    int[]  st = {};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(78, trans);
@@ -1063,23 +1067,23 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState79() {
     char[] tc = {57,56,101,55,54,53,52,51,50,49,48,69,};
-    int[]  st = {78,78,40,78,78,78,78,78,78,78,78,40,};
+    int[]  st = {80,80,41,80,80,80,80,80,80,80,80,41,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(79, trans);
   } // end buildState79
 
   private void buildState80() {
-    char[] tc = {};
-    int[]  st = {};
+    char[] tc = {57,56,101,55,54,53,52,51,50,49,48,69,};
+    int[]  st = {79,79,41,79,79,79,79,79,79,79,79,41,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(80, trans);
   } // end buildState80
 
   private void buildState81() {
-    char[] tc = {255,254,253,252,251,250,249,248,247,246,245,244,243,242,241,240,239,238,237,236,235,234,233,232,231,230,229,228,227,226,225,224,223,222,221,220,219,218,217,216,215,214,213,212,211,210,209,208,207,206,205,204,203,202,201,200,199,198,197,196,195,194,193,192,191,190,189,188,187,186,185,184,183,182,181,180,179,178,177,176,175,174,173,172,171,170,169,168,167,166,165,164,163,162,161,160,159,158,157,156,155,154,153,152,151,150,149,148,147,146,145,144,143,142,141,140,139,138,137,136,135,134,133,132,131,130,129,128,127,126,125,124,123,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,96,95,94,93,92,91,90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,64,63,62,61,60,59,58,57,56,55,54,53,52,51,50,49,48,47,46,45,44,43,42,41,40,39,38,37,36,35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,12,11,9,};
-    int[]  st = {82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,};
+    char[] tc = {};
+    int[]  st = {};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(81, trans);
@@ -1087,15 +1091,15 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState82() {
     char[] tc = {255,254,253,252,251,250,249,248,247,246,245,244,243,242,241,240,239,238,237,236,235,234,233,232,231,230,229,228,227,226,225,224,223,222,221,220,219,218,217,216,215,214,213,212,211,210,209,208,207,206,205,204,203,202,201,200,199,198,197,196,195,194,193,192,191,190,189,188,187,186,185,184,183,182,181,180,179,178,177,176,175,174,173,172,171,170,169,168,167,166,165,164,163,162,161,160,159,158,157,156,155,154,153,152,151,150,149,148,147,146,145,144,143,142,141,140,139,138,137,136,135,134,133,132,131,130,129,128,127,126,125,124,123,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,96,95,94,93,92,91,90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,64,63,62,61,60,59,58,57,56,55,54,53,52,51,50,49,48,47,46,45,44,43,42,41,40,39,38,37,36,35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,12,11,9,};
-    int[]  st = {82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,};
+    int[]  st = {83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(82, trans);
   } // end buildState82
 
   private void buildState83() {
-    char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,84,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    char[] tc = {255,254,253,252,251,250,249,248,247,246,245,244,243,242,241,240,239,238,237,236,235,234,233,232,231,230,229,228,227,226,225,224,223,222,221,220,219,218,217,216,215,214,213,212,211,210,209,208,207,206,205,204,203,202,201,200,199,198,197,196,195,194,193,192,191,190,189,188,187,186,185,184,183,182,181,180,179,178,177,176,175,174,173,172,171,170,169,168,167,166,165,164,163,162,161,160,159,158,157,156,155,154,153,152,151,150,149,148,147,146,145,144,143,142,141,140,139,138,137,136,135,134,133,132,131,130,129,128,127,126,125,124,123,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,96,95,94,93,92,91,90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,64,63,62,61,60,59,58,57,56,55,54,53,52,51,50,49,48,47,46,45,44,43,42,41,40,39,38,37,36,35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,12,11,9,};
+    int[]  st = {83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,83,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(83, trans);
@@ -1103,7 +1107,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState84() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,85,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,85,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(84, trans);
@@ -1111,7 +1115,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState85() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,86,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,86,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(85, trans);
@@ -1119,7 +1123,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState86() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,87,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,87,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(86, trans);
@@ -1127,7 +1131,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState87() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,88,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(87, trans);
@@ -1135,7 +1139,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState88() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,89,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(88, trans);
@@ -1143,7 +1147,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState89() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,90,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,90,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(89, trans);
@@ -1151,7 +1155,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState90() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,91,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,91,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(90, trans);
@@ -1159,7 +1163,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState91() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,92,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,92,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(91, trans);
@@ -1167,23 +1171,23 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState92() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,93,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(92, trans);
   } // end buildState92
 
   private void buildState93() {
-    char[] tc = {};
-    int[]  st = {};
+    char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(93, trans);
   } // end buildState93
 
   private void buildState94() {
-    char[] tc = {255,254,253,252,251,250,249,248,247,246,245,244,243,242,241,240,239,238,237,236,235,234,233,232,231,230,229,228,227,226,225,224,223,222,221,220,219,218,217,216,215,214,213,212,211,210,209,208,207,206,205,204,203,202,201,200,199,198,197,196,195,194,193,192,191,190,189,188,187,186,185,184,183,182,181,180,179,178,177,176,175,174,173,172,171,170,169,168,167,166,165,164,163,162,161,160,159,158,157,156,155,154,153,152,151,150,149,148,147,146,145,144,143,142,141,140,139,138,137,136,135,134,133,132,131,130,129,128,127,126,125,124,123,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,96,95,94,93,92,91,90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,64,63,62,61,60,59,58,57,56,55,54,53,52,51,50,49,48,47,46,45,44,43,42,41,40,39,38,37,36,35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,};
-    int[]  st = {94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,95,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,96,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,};
+    char[] tc = {};
+    int[]  st = {};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(94, trans);
@@ -1191,55 +1195,55 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState95() {
     char[] tc = {255,254,253,252,251,250,249,248,247,246,245,244,243,242,241,240,239,238,237,236,235,234,233,232,231,230,229,228,227,226,225,224,223,222,221,220,219,218,217,216,215,214,213,212,211,210,209,208,207,206,205,204,203,202,201,200,199,198,197,196,195,194,193,192,191,190,189,188,187,186,185,184,183,182,181,180,179,178,177,176,175,174,173,172,171,170,169,168,167,166,165,164,163,162,161,160,159,158,157,156,155,154,153,152,151,150,149,148,147,146,145,144,143,142,141,140,139,138,137,136,135,134,133,132,131,130,129,128,127,126,125,124,123,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,96,95,94,93,92,91,90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,64,63,62,61,60,59,58,57,56,55,54,53,52,51,50,49,48,47,46,45,44,43,42,41,40,39,38,37,36,35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,};
-    int[]  st = {94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,95,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,97,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,};
+    int[]  st = {95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,96,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,97,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(95, trans);
   } // end buildState95
 
   private void buildState96() {
-    char[] tc = {};
-    int[]  st = {};
+    char[] tc = {255,254,253,252,251,250,249,248,247,246,245,244,243,242,241,240,239,238,237,236,235,234,233,232,231,230,229,228,227,226,225,224,223,222,221,220,219,218,217,216,215,214,213,212,211,210,209,208,207,206,205,204,203,202,201,200,199,198,197,196,195,194,193,192,191,190,189,188,187,186,185,184,183,182,181,180,179,178,177,176,175,174,173,172,171,170,169,168,167,166,165,164,163,162,161,160,159,158,157,156,155,154,153,152,151,150,149,148,147,146,145,144,143,142,141,140,139,138,137,136,135,134,133,132,131,130,129,128,127,126,125,124,123,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,96,95,94,93,92,91,90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,64,63,62,61,60,59,58,57,56,55,54,53,52,51,50,49,48,47,46,45,44,43,42,41,40,39,38,37,36,35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,};
+    int[]  st = {95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,96,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,98,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(96, trans);
   } // end buildState96
 
   private void buildState97() {
-    char[] tc = {255,254,253,252,251,250,249,248,247,246,245,244,243,242,241,240,239,238,237,236,235,234,233,232,231,230,229,228,227,226,225,224,223,222,221,220,219,218,217,216,215,214,213,212,211,210,209,208,207,206,205,204,203,202,201,200,199,198,197,196,195,194,193,192,191,190,189,188,187,186,185,184,183,182,181,180,179,178,177,176,175,174,173,172,171,170,169,168,167,166,165,164,163,162,161,160,159,158,157,156,155,154,153,152,151,150,149,148,147,146,145,144,143,142,141,140,139,138,137,136,135,134,133,132,131,130,129,128,127,126,125,124,123,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,96,95,94,93,92,91,90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,64,63,62,61,60,59,58,57,56,55,54,53,52,51,50,49,48,47,46,45,44,43,42,41,40,39,38,37,36,35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,};
-    int[]  st = {94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,95,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,96,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,94,};
+    char[] tc = {};
+    int[]  st = {};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(97, trans);
   } // end buildState97
 
   private void buildState98() {
-    char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    char[] tc = {255,254,253,252,251,250,249,248,247,246,245,244,243,242,241,240,239,238,237,236,235,234,233,232,231,230,229,228,227,226,225,224,223,222,221,220,219,218,217,216,215,214,213,212,211,210,209,208,207,206,205,204,203,202,201,200,199,198,197,196,195,194,193,192,191,190,189,188,187,186,185,184,183,182,181,180,179,178,177,176,175,174,173,172,171,170,169,168,167,166,165,164,163,162,161,160,159,158,157,156,155,154,153,152,151,150,149,148,147,146,145,144,143,142,141,140,139,138,137,136,135,134,133,132,131,130,129,128,127,126,125,124,123,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,96,95,94,93,92,91,90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,64,63,62,61,60,59,58,57,56,55,54,53,52,51,50,49,48,47,46,45,44,43,42,41,40,39,38,37,36,35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,};
+    int[]  st = {95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,96,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,97,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(98, trans);
   } // end buildState98
 
   private void buildState99() {
-    char[] tc = {};
-    int[]  st = {};
+    char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(99, trans);
   } // end buildState99
 
   private void buildState100() {
-    char[] tc = {57,56,55,54,53,52,51,50,49,48,};
-    int[]  st = {78,78,78,78,78,78,78,78,78,78,};
+    char[] tc = {};
+    int[]  st = {};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(100, trans);
   } // end buildState100
 
   private void buildState101() {
-    char[] tc = {57,56,101,55,54,53,52,51,50,49,48,69,46,};
-    int[]  st = {102,102,40,102,102,102,102,102,102,102,102,40,39,};
+    char[] tc = {57,56,55,54,53,52,51,50,49,48,};
+    int[]  st = {79,79,79,79,79,79,79,79,79,79,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(101, trans);
@@ -1247,15 +1251,15 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState102() {
     char[] tc = {57,56,101,55,54,53,52,51,50,49,48,69,46,};
-    int[]  st = {101,101,40,101,101,101,101,101,101,101,101,40,48,};
+    int[]  st = {103,103,41,103,103,103,103,103,103,103,103,41,40,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(102, trans);
   } // end buildState102
 
   private void buildState103() {
-    char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,104,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    char[] tc = {57,56,101,55,54,53,52,51,50,49,48,69,46,};
+    int[]  st = {102,102,41,102,102,102,102,102,102,102,102,41,49,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(103, trans);
@@ -1263,7 +1267,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState104() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,106,51,51,51,105,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,105,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(104, trans);
@@ -1271,7 +1275,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState105() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,107,52,52,52,106,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(105, trans);
@@ -1279,7 +1283,7 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState106() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,107,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(106, trans);
@@ -1287,10 +1291,18 @@ public class CMMTokenizer implements CMMiTokenizer {
 
   private void buildState107() {
     char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
-    int[]  st = {51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,51,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,108,52,52,52,52,52,52,};
     Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
     for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
     DFA.put(107, trans);
   } // end buildState107
+
+  private void buildState108() {
+    char[] tc = {90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,57,56,55,54,53,52,51,50,49,48,122,121,120,119,118,117,116,115,114,113,112,111,110,109,108,107,106,105,104,103,102,101,100,99,98,97,95,};
+    int[]  st = {52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,};
+    Hashtable<Character, Integer> trans = new Hashtable<Character, Integer>();
+    for (int i = 0; i < tc.length; i++) trans.put(tc[i], st[i]);
+    DFA.put(108, trans);
+  } // end buildState108
 
 } // end CMMTokenizer
