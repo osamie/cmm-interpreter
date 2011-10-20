@@ -12,7 +12,12 @@ ExpressionList -> Statement*
 
 Statement -> Declaration | WhileLoop | DoLoop | IfStatement | SimpleStatement
 
-Declaration -> Type id (listsep id)* eol
+#Declaration -> Type id (listsep id)* eol
+
+Declaration -> Type id (gets Negatedlogical)? (listsep id (gets Negatedlogical)?)* eol
+
+#Declaration -> Type (listep? (Assignment|id))* eol
+
 
 Type -> number_t | string_t | boolean_t 
 

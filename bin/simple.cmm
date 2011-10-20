@@ -11,17 +11,17 @@ number count(number n) {
 }
 
 number ifState(){
-string x;
-string y; 
+string x = "3";
+//string y; 
 //string z;
-x = "love";
-y ="hate";  
+//x = "love";
+//y ="hate";  
 
 
 //true?1:3;
 if(!false) { 
 //print("this condition is a notFalse"); 
-println(x" "y);
+println(x);
 0; 
 } 
 elsif (true) { 
@@ -36,10 +36,10 @@ println("an ELSE");
 
 // do some stupid things
 number main() {
-  number x;
+  number x=3,y=9;
   //x = 5 + 7;
-  //println(x * 2);
-  ifState();
+  println(x+y);
+  //ifState();
 
   //count(10);
   //number x; 

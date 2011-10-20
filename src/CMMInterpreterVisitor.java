@@ -426,20 +426,110 @@ public class CMMInterpreterVisitor implements
 
 	//@Override
 	/*
-	 * Declaration -> Type Identifier (listsep Identifier)* eol
+	 * 
+	 *                 0    1    2         3            4/2   5/3  6/4       7/8               l
+	 * Declaration -> Type id (gets Negatedlogical)? (listsep id (gets Negatedlogical)?)* eol
 	 */
 	public CMMData visit(CMMASTDeclarationNode node, CMMEnvironment data) {
 		CMMASTNode type = node.getChild(0);
 		String stype = type.getChild(0).getName();
+		
+		if (node.numChildren()==3){
+			
+			if (stype.equals("number_t")) {
+				//for (int i = 1; i < node.numChildren(); i += 2){
+				{  
+					env.bind(node.getChild(1).getValue(), new CMMNumber(0));
+					//throw new RuntimeException("Done number ");
+					
+				}	
+				//}
+			} else if (stype.equals("string_t")) {
+				//for (int i = 1; i < node.numChildren(); i += 2)
+				//{
+					
+					
+				
+					env.bind(node.getChild(1).getValue(), new CMMString(""));			
+				//}
+			} else if (stype.equals("boolean_t")) {
+				//for (int i = 1; i < node.numChildren(); i += 2){
+					
+					env.bind(node.getChild(1).getValue(), new CMMBoolean(false));
+				//}
+											
+			}
+			
+			return null;
+			//throw new RuntimeException("found a Type id=..... ; ");
+		}
+		
+		//if ()
+		
+		//if (node.numChildren()<=5) throw new RuntimeException("found an equals in declaration!" + node.getChild(1).getName());
+		//if (node.getChild(2).getName().equals("gets")) throw new RuntimeException("found an equals in declaration!"); 
+		
+		//if num.children <= 5
+		
+		
+		
+		
 		if (stype.equals("number_t")) {
-			for (int i = 1; i < node.numChildren(); i += 2)
-				env.bind(node.getChild(i).getValue(), new CMMNumber(0));
+			for (int i = 1; i < node.numChildren(); i += 2){
+				//if (i+1) is not listep
+				if(!(node.getChild(i+1).getName().equals("listep")))
+				{
+					CMMData a = node.getChild(i+2).accept(this, data);
+					if (!(a instanceof CMMNumber)) throw new RuntimeException("Type miss match"); 
+					CMMNumber num = (CMMNumber) a;
+					
+					
+					env.bind(node.getChild(i).getValue(), num);
+					i+=2;
+				}
+				
+				else{
+					env.bind(node.getChild(i).getValue(), new CMMNumber(0));
+					
+				}
+			}
+			//throw new RuntimeException("Done number declaration");
 		} else if (stype.equals("string_t")) {
 			for (int i = 1; i < node.numChildren(); i += 2)
-				env.bind(node.getChild(i).getValue(), new CMMString(""));			
+			{
+				
+				if(!(node.getChild(i+1).getName().equals("listep")))
+				{
+					CMMData a = node.getChild(i+2).accept(this, data);
+					if (!(a instanceof CMMString)) 
+						throw new RuntimeException("Type miss match"); 
+					CMMString str = (CMMString) a;  
+				
+					env.bind(node.getChild(i).getValue(), str);
+					i+=2;
+					
+				}
+				else env.bind(node.getChild(i).getValue(), new CMMString(""));
+							
+			}
 		} else if (stype.equals("boolean_t")) {
-			for (int i = 1; i < node.numChildren(); i += 2)
-				env.bind(node.getChild(i).getValue(), new CMMBoolean(false));						
+			for (int i = 1; i < node.numChildren(); i += 2){
+				
+				if(!(node.getChild(i+1).getName().equals("listep")))
+				{
+					CMMData a = node.getChild(i+2).accept(this, data);
+					if (!(a instanceof CMMBoolean)) 
+						throw new RuntimeException("Type miss match"); 
+					CMMBoolean bool = (CMMBoolean) a; 
+					
+					env.bind(node.getChild(i).getValue(), bool);
+					i+=2;
+					
+				}
+				else env.bind(node.getChild(i).getValue(), new CMMBoolean(false));
+				
+			}
+										
 		}
 		return null;
 	}
