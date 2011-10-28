@@ -1,4 +1,14 @@
+
+This is the front end of my compiler (which handles tokenization and parsing of my "cmm" language).
+
+The grammar and token files can be found in "src/cmm.g" and "src/cmm.t".  
+
+The focus was to develop the interpreter to be able to parse certain expressions and cmm syntax.
+
+Sicc was used in generating the parse tree from the definition files.
+
+
 //TODO
 
-lnaguage called cmm, intepreter, and parser.
-Current data types: numbers, strings, and booleans. 
+
+- Zuwa
